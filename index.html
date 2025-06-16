@@ -57,7 +57,7 @@
                     <a href="#medicines-section" class="text-gray-600 hover:text-teal-600 font-medium">Products</a>
                     <button id="spin-win-nav-btn" class="text-gray-600 hover:text-teal-600 font-medium"><i class="fa-solid fa-star mr-1"></i>Spin & Win</button>
                     <!-- Auth Buttons -->
-                    <div id="auth-buttons-desktop"></div>
+                    <div id="auth-buttons-desktop" class="flex items-center gap-4"></div>
                 </div>
                 <div class="lg:hidden">
                     <button id="hamburger-btn" class="text-gray-700 focus:outline-none"><i class="fa-solid fa-bars fa-xl"></i></button>
@@ -144,7 +144,7 @@
     
     <!-- FOOTER -->
     <footer class="bg-gray-800 text-white mt-20">
-        <div class="container mx-auto py-10 px-4 text-center"><p class="font-bold text-lg">Lucky Medical Store</p><p class="text-gray-400 mt-2">B-11 SAI DRASHAN RESIDENCY, OPP. UMA PLAZA, KHARWASA ROAD, DINDOLI, SURAT</p><p class="text-gray-400 mt-2">For inquiries, email: <a href="mailto:radhanasaroj7@gmail.com" class="text-teal-400 hover:underline">luckymedicalstore@gmail.com</a></p><div class="mt-4 text-gray-500 text-sm">&copy; <span id="year"></span> Lucky Medical Store . All Rights Reserved.</div></div>
+        <div class="container mx-auto py-10 px-4 text-center"><p class="font-bold text-lg">Lucky Medical Store</p><p class="text-gray-400 mt-2">B-11 SAI DRASHAN RESIDENCY, OPP. UMA PLAZA, KHARWASA ROAD, DINDOLI, SURAT</p><p class="text-gray-400 mt-2">For inquiries, email: <a href="mailto:radhanasaroj7@gmail.com" class="text-teal-400 hover:underline">radhanasaroj7@gmail.com</a></p><div class="mt-4 text-gray-500 text-sm">&copy; <span id="year"></span> Lucky Medical Store by Aditya Saroj. All Rights Reserved.</div></div>
     </footer>
     
     <!-- MODALS -->
@@ -452,6 +452,13 @@
         
         async function handleBookingSubmit(e) {
             e.preventDefault();
+            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+            if (!loggedInUser) {
+                showModal("Login Required", "Please log in or create an account to place an order.", '<i class="fa-solid fa-user-lock text-yellow-500 fa-3x"></i>');
+                openAuthModal();
+                return;
+            }
+            
             const form = e.target;
             const data = new FormData(form);
             if (!data.get('Medicine') || !data.get('Customer Name') || !data.get('Delivery Address') || !data.get('WhatsApp Number')) {
@@ -464,6 +471,7 @@
                     form.reset();
                     document.getElementById('location-status').textContent = "";
                     document.getElementById('price-section').classList.add('hidden');
+                    updateAuthUI(); // Refill name if logged in
                 } else {
                     showModal("Submission Error", "Could not send order. Please try again later.", '<i class="fa-solid fa-circle-exclamation text-red-500 fa-3x"></i>');
                 }
@@ -544,7 +552,8 @@
             const randomSpins = Math.floor(Math.random() * 4) + 5;
             const randomStopIndex = Math.floor(Math.random() * segments.length);
             const segmentAngle = 360 / segments.length;
-            const stopAngle = (randomStopIndex * segmentAngle) + (segmentAngle / 2);
+            // Corrected angle calculation
+            const stopAngle = -((randomStopIndex * segmentAngle) + (segmentAngle / 2));
             const totalRotation = (randomSpins * 360) + stopAngle;
             
             spinWheel.style.transform = `rotate(${totalRotation}deg)`;
@@ -646,6 +655,27 @@
             }
         }
         
+        function handleGetLocation() {
+            const locationStatus = document.getElementById('location-status');
+            const locationCoordsInput = document.getElementById('location-coords');
+            if (!navigator.geolocation) {
+                showModal("Feature Not Supported", "Geolocation is not supported by your browser.", '<i class="fa-solid fa-circle-exclamation text-red-500 fa-3x"></i>'); return;
+            }
+            locationStatus.textContent = "Requesting permission...";
+            locationStatus.className = "text-sm text-center mt-2 text-blue-500";
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    locationCoordsInput.value = `https://www.google.com/maps?q=${position.coords.latitude},${position.coords.longitude}`;
+                    locationStatus.innerHTML = `<i class="fa-solid fa-check-circle text-green-600"></i> Location captured!`;
+                    locationStatus.className = "text-sm text-center mt-2 text-green-600 font-semibold";
+                },
+                (error) => {
+                    locationStatus.textContent = "Could not get location. Please enter address manually.";
+                    locationStatus.className = "text-sm text-center mt-2 text-red-500";
+                }
+            );
+        }
+
         // --- Event Listeners & Initialization ---
         document.getElementById('hamburger-btn').addEventListener('click', () => document.getElementById('mobile-menu').classList.toggle('hidden'));
         document.querySelectorAll('#mobile-menu a, #promo-shop-now').forEach(link => {
@@ -662,7 +692,7 @@
             document.getElementById('coupon-section').classList.toggle('hidden');
         });
         document.getElementById('apply-coupon-btn').addEventListener('click', applyCoupon);
-        document.getElementById('get-location-btn').addEventListener('click', () => {});
+        document.getElementById('get-location-btn').addEventListener('click', handleGetLocation);
         document.getElementById('booking-form').addEventListener('submit', handleBookingSubmit);
         document.getElementById('modal-close').addEventListener('click', () => document.getElementById('modal').classList.add('hidden'));
         document.getElementById('promo-close-btn').addEventListener('click', () => promoModal.classList.add('hidden'));
@@ -703,4 +733,3 @@
     </script>
 </body>
 </html>
-
