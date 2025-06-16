@@ -32,12 +32,8 @@
             0% { transform: translateX(0%); }
             100% { transform: translateX(-50%); }
         }
-        .animate-marquee {
-            animation: marquee 40s linear infinite;
-        }
-        .animate-marquee:hover {
-            animation-play-state: paused;
-        }
+        .animate-marquee { animation: marquee 40s linear infinite; }
+        .animate-marquee:hover { animation-play-state: paused; }
 
         @keyframes fadeInOut {
             0%, 100% { opacity: 0; transform: translateY(8px); }
@@ -48,7 +44,7 @@
 </head>
 <body class="text-gray-800">
 
-    <!-- UPDATED Navigation Bar -->
+    <!-- Navigation Bar -->
     <nav class="bg-white/90 backdrop-blur-lg sticky top-0 z-40 shadow-sm">
         <div class="w-full px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
@@ -59,19 +55,20 @@
                 <div class="hidden lg:flex items-center space-x-8">
                     <a href="#home" class="text-gray-600 hover:text-teal-600 font-medium">Home</a>
                     <a href="#medicines-section" class="text-gray-600 hover:text-teal-600 font-medium">Products</a>
-                    <a href="#booking-section" class="bg-teal-600 text-white font-bold py-2 px-5 rounded-full hover:bg-teal-700 transition btn-glow">Order Now</a>
+                    <button id="spin-win-nav-btn" class="text-gray-600 hover:text-teal-600 font-medium"><i class="fa-solid fa-star mr-1"></i>Spin & Win</button>
+                    <!-- Auth Buttons -->
+                    <div id="auth-buttons-desktop"></div>
                 </div>
                 <div class="lg:hidden">
-                    <button id="hamburger-btn" class="text-gray-700 focus:outline-none">
-                        <i class="fa-solid fa-bars fa-xl"></i>
-                    </button>
+                    <button id="hamburger-btn" class="text-gray-700 focus:outline-none"><i class="fa-solid fa-bars fa-xl"></i></button>
                 </div>
             </div>
         </div>
         <div id="mobile-menu" class="lg:hidden hidden mobile-menu bg-white border-t border-gray-200">
             <a href="#home" class="block py-3 px-4 text-gray-600 hover:bg-teal-50">Home</a>
             <a href="#medicines-section" class="block py-3 px-4 text-gray-600 hover:bg-teal-50">Products</a>
-            <a href="#booking-section" class="block py-3 px-4 bg-teal-50 font-semibold text-teal-700">Order Now</a>
+            <button id="spin-win-mobile-btn" class="w-full text-left block py-3 px-4 text-gray-600 hover:bg-teal-50"><i class="fa-solid fa-star mr-1"></i>Spin & Win</button>
+            <div id="auth-buttons-mobile" class="px-4 py-2"></div>
         </div>
     </nav>
 
@@ -84,7 +81,7 @@
             <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">Lucky Medical Store</h1>
             <p class="text-teal-200 mt-6 text-lg max-w-2xl mx-auto">Your trusted pharmacy in Surat. Fast, reliable, and right at your doorstep.</p>
             <div class="mt-10 flex justify-center gap-4 flex-wrap">
-                 <a href="#booking-section" class="inline-block bg-teal-500 text-white font-bold py-3 px-8 rounded-full hover:bg-teal-600 transition duration-300 transform hover:scale-105 shadow-lg"><i class="fa-solid fa-pills mr-2"></i>Order Now</a>
+                 <button id="hero-order-now-btn" class="inline-block bg-teal-500 text-white font-bold py-3 px-8 rounded-full hover:bg-teal-600 transition duration-300 transform hover:scale-105 shadow-lg"><i class="fa-solid fa-pills mr-2"></i>Order Now</button>
                  <a href="#medicines-section" class="inline-block bg-white/20 backdrop-blur-sm text-white font-bold py-3 px-8 rounded-full hover:bg-white/30 transition duration-300">Browse Products</a>
             </div>
         </div>
@@ -118,7 +115,7 @@
                 
                 <div id="price-section" class="bg-gray-50 p-4 rounded-lg hidden">
                     <div class="flex justify-between items-center text-gray-700"><span>Price:</span><span id="price-display"></span></div>
-                    <div id="discount-row" class="flex justify-between items-center text-green-600 font-semibold hidden"><span>Discount (15%):</span><span id="discount-display"></span></div>
+                    <div id="discount-row" class="flex justify-between items-center text-green-600 font-semibold hidden"><span>Discount:</span><span id="discount-display"></span></div>
                     <hr class="my-2 border-t border-gray-200">
                     <div class="flex justify-between items-center font-bold text-lg"><span>Total:</span><span id="total-display"></span></div>
                 </div>
@@ -147,7 +144,7 @@
     
     <!-- FOOTER -->
     <footer class="bg-gray-800 text-white mt-20">
-        <div class="container mx-auto py-10 px-4 text-center"><p class="font-bold text-lg">Lucky Medical Store</p><p class="text-gray-400 mt-2">B-11 SAI DRASHAN RESIDENCY, OPP. UMA PLAZA, KHARWASA ROAD, DINDOLI, SURAT</p><p class="text-gray-400 mt-2">For inquiries, email: <a href="mailto:radhanasaroj7@gmail.com" class="text-teal-400 hover:underline">radhanasaroj7@gmail.com</a></p><div class="mt-4 text-gray-500 text-sm">&copy; <span id="year"></span> Lucky Medical Store by Aditya Saroj. All Rights Reserved.</div></div>
+        <div class="container mx-auto py-10 px-4 text-center"><p class="font-bold text-lg">Lucky Medical Store</p><p class="text-gray-400 mt-2">B-11 SAI DRASHAN RESIDENCY, OPP. UMA PLAZA, KHARWASA ROAD, DINDOLI, SURAT</p><p class="text-gray-400 mt-2">For inquiries, email: <a href="mailto:radhanasaroj7@gmail.com" class="text-teal-400 hover:underline">luckymedicalstore@gmail.com</a></p><div class="mt-4 text-gray-500 text-sm">&copy; <span id="year"></span> Lucky Medical Store . All Rights Reserved.</div></div>
     </footer>
     
     <!-- MODALS -->
@@ -163,6 +160,52 @@
             </div>
         </div>
     </div>
+    
+    <!-- Spin and Win Modal -->
+     <div id="spin-win-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden modal-enter z-50">
+        <div class="bg-gradient-to-br from-teal-50 to-cyan-100 p-8 rounded-2xl shadow-xl max-w-md w-full text-center relative">
+             <button id="spin-win-close-btn" class="absolute top-4 right-4 text-gray-600 bg-white/50 hover:bg-white/80 rounded-full w-8 h-8 flex items-center justify-center transition z-20"><i class="fa-solid fa-times"></i></button>
+            <h2 class="text-3xl font-bold text-teal-800">Spin & Win!</h2>
+            <p class="text-gray-600 mt-2 mb-6">Spin the wheel to win an exciting discount coupon!</p>
+            <div class="relative w-64 h-64 mx-auto mb-6">
+                <div id="spin-wheel" class="w-full h-full rounded-full border-8 border-white shadow-lg" style="transition: transform 5s cubic-bezier(0.25, 1, 0.5, 1);"></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full border-4 border-teal-500 shadow-md flex items-center justify-center"><i class="fa-solid fa-star text-teal-500 text-xl"></i></div>
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 w-0 h-0 border-x-8 border-x-transparent border-b-[16px] border-b-teal-600"></div>
+            </div>
+            <button id="spin-btn" class="w-full bg-teal-600 text-white font-bold py-4 rounded-lg btn-glow text-lg disabled:bg-gray-400 disabled:shadow-none disabled:cursor-not-allowed">Spin Now</button>
+            <p id="spin-result" class="mt-4 font-semibold text-lg text-gray-700 h-6"></p>
+        </div>
+    </div>
+
+    <!-- Login/Sign Up Modal -->
+    <div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden modal-enter z-50">
+        <div class="bg-white rounded-2xl shadow-xl max-w-md w-full relative">
+             <button id="auth-close-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition"><i class="fa-solid fa-times fa-lg"></i></button>
+             <div class="p-8">
+                <!-- Tabs -->
+                <div class="flex border-b border-gray-200 mb-6">
+                    <button id="login-tab-btn" class="w-1/2 py-4 text-center font-semibold text-teal-600 border-b-2 border-teal-600">Login</button>
+                    <button id="signup-tab-btn" class="w-1/2 py-4 text-center font-semibold text-gray-500">Sign Up</button>
+                </div>
+                <!-- Login Form -->
+                <form id="login-form" class="space-y-4">
+                     <div><label for="login-email" class="block text-sm font-medium text-gray-700">Email</label><input type="email" id="login-email" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
+                     <div><label for="login-password" class="block text-sm font-medium text-gray-700">Password</label><input type="password" id="login-password" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
+                     <p id="login-error" class="text-red-500 text-sm h-4"></p>
+                     <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg btn-glow">Login</button>
+                </form>
+                <!-- Sign Up Form -->
+                 <form id="signup-form" class="space-y-4 hidden">
+                     <div><label for="signup-name" class="block text-sm font-medium text-gray-700">Name</label><input type="text" id="signup-name" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
+                     <div><label for="signup-email" class="block text-sm font-medium text-gray-700">Email</label><input type="email" id="signup-email" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
+                     <div><label for="signup-password" class="block text-sm font-medium text-gray-700">Password</label><input type="password" id="signup-password" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
+                     <p id="signup-error" class="text-red-500 text-sm h-4"></p>
+                     <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg btn-glow">Create Account</button>
+                </form>
+             </div>
+        </div>
+    </div>
+
 
     <script>
     document.addEventListener('DOMContentLoaded', async function() {
@@ -179,21 +222,18 @@
 
         let allMedicines = [];
         let currentPrice = 0;
-        let discountApplied = false;
+        let discountInfo = { applied: false, code: '', percent: 0 };
         let trendingInterval;
 
-        // --- All element selectors ---
         const searchBar = document.getElementById('search-bar');
         const medicineSelect = document.getElementById('medicine-select');
         const medicineGrid = document.getElementById('medicine-grid');
         const noResultsMsg = document.getElementById('no-results');
         const initialPrompt = document.getElementById('initial-prompt');
         const shimmerContainer = document.getElementById('shimmer-container');
-        const scrollingBannersContainer = document.getElementById('scrolling-banners');
-        const trendingTextElement = document.getElementById('trending-text');
         const promoModal = document.getElementById('promo-modal');
-        const promoCloseBtn = document.getElementById('promo-close-btn');
-        const promoShopNowBtn = document.getElementById('promo-shop-now');
+        const spinWinModal = document.getElementById('spin-win-modal');
+        const authModal = document.getElementById('auth-modal');
 
         function createShimmerCards() {
             shimmerContainer.innerHTML = '';
@@ -302,7 +342,7 @@
             const priceText = selectedMed.price.replace(/[^\d.-]/g, '');
             currentPrice = parseFloat(priceText);
             
-            discountApplied = false;
+            discountInfo = { applied: false, code: '', percent: 0 };
             document.getElementById('coupon-input').value = '';
             document.getElementById('coupon-status').textContent = '';
             document.getElementById('discount-row').classList.add('hidden');
@@ -312,10 +352,10 @@
         
         function updateDisplayAndHiddenInputs() {
             let discountAmount = 0;
-            if (discountApplied) {
-                discountAmount = currentPrice * 0.15;
+            if (discountInfo.applied) {
+                discountAmount = currentPrice * (discountInfo.percent / 100);
                 document.getElementById('discount-row').classList.remove('hidden');
-                document.getElementById('discount-display').textContent = `- ₹${discountAmount.toFixed(2)}`;
+                document.getElementById('discount-display').textContent = `- ₹${discountAmount.toFixed(2)} (${discountInfo.percent}%)`;
             } else {
                  document.getElementById('discount-row').classList.add('hidden');
             }
@@ -325,20 +365,28 @@
             document.getElementById('total-display').textContent = `₹${finalPrice.toFixed(2)}`;
             
             document.getElementById('hidden-original-price').value = `₹${currentPrice.toFixed(2)}`;
-            document.getElementById('hidden-discount-applied').value = discountApplied ? `Yes (15% - ₹${discountAmount.toFixed(2)})` : 'No';
+            document.getElementById('hidden-discount-applied').value = discountInfo.applied ? `Yes (${discountInfo.code} - ${discountInfo.percent}%)` : 'No';
             document.getElementById('hidden-final-price').value = `₹${finalPrice.toFixed(2)}`;
         }
 
         function applyCoupon() {
             const couponInput = document.getElementById('coupon-input');
             const couponStatus = document.getElementById('coupon-status');
+            const code = couponInput.value.trim().toUpperCase();
             
-            if (couponInput.value.trim().toUpperCase() === COUPON_CODE) {
-                discountApplied = true;
-                couponStatus.textContent = 'Coupon applied successfully!';
+            const validCoupons = {
+                'LUCKY15': 15,
+                'SPIN5': 5,
+                'SPIN10': 10,
+                'SPIN20': 20
+            };
+
+            if (validCoupons[code]) {
+                discountInfo = { applied: true, code: code, percent: validCoupons[code] };
+                couponStatus.textContent = `Coupon "${code}" applied successfully!`;
                 couponStatus.className = 'text-sm mt-1 text-green-600';
             } else {
-                discountApplied = false;
+                discountInfo = { applied: false, code: '', percent: 0 };
                 couponStatus.textContent = 'Invalid coupon code.';
                 couponStatus.className = 'text-sm mt-1 text-red-600';
             }
@@ -346,6 +394,7 @@
         }
 
         function populateScrollingBanners() {
+            const scrollingBannersContainer = document.getElementById('scrolling-banners');
             scrollingBannersContainer.innerHTML = '';
             const bannerItems = [...featuredProducts, ...featuredProducts];
             bannerItems.forEach(product => {
@@ -361,6 +410,7 @@
         }
         
         function startTrendingAnimation() {
+            const trendingTextElement = document.getElementById('trending-text');
             if (trendingInterval) clearInterval(trendingInterval);
             if(allMedicines.length === 0) {
                 trendingTextElement.textContent = "No products found.";
@@ -421,35 +471,236 @@
                 showModal("Network Error", "Could not send order. Please check your internet connection.", '<i class="fa-solid fa-wifi text-red-500 fa-3x"></i>');
             }
         }
+        
+        function handleSpinWin() {
+            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+            if (!loggedInUser) {
+                openAuthModal();
+                return;
+            }
 
-        // --- Event Listeners & Initialization ---
-        document.getElementById('hamburger-btn').addEventListener('click', () => document.getElementById('mobile-menu').classList.toggle('hidden'));
-        document.querySelectorAll('#mobile-menu a').forEach(link => link.addEventListener('click', () => document.getElementById('mobile-menu').classList.add('hidden')));
-        searchBar.addEventListener('input', filterAndRender);
-        document.getElementById('get-location-btn').addEventListener('click', () => { /* Location logic */ });
-        document.getElementById('booking-form').addEventListener('submit', handleBookingSubmit);
-        document.getElementById('modal-close').addEventListener('click', () => document.getElementById('modal').classList.add('hidden'));
+            const spinBtn = document.getElementById('spin-btn');
+            const spinResult = document.getElementById('spin-result');
+            
+            const lastSpinTimestamp = localStorage.getItem('lastSpinTimestamp');
+            const oneWeek = 7 * 24 * 60 * 60 * 1000;
+            
+            if (lastSpinTimestamp && (Date.now() - lastSpinTimestamp < oneWeek)) {
+                const remainingTime = oneWeek - (Date.now() - lastSpinTimestamp);
+                const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                spinResult.textContent = `You can spin again in ${days}d ${hours}h.`;
+                spinBtn.disabled = true;
+            } else {
+                spinResult.textContent = 'Good luck!';
+                spinBtn.disabled = false;
+            }
+            spinWinModal.classList.remove('hidden');
+            spinWinModal.classList.add('modal-enter-active');
+        }
+        
+        function createSpinWheel() {
+            const wheel = document.getElementById('spin-wheel');
+            const segments = [
+                { text: '5%', icon: 'fa-gift', color: '#a7f3d0' },
+                { text: 'Sorry', icon: 'fa-face-sad-tear', color: '#e5e7eb' },
+                { text: '10%', icon: 'fa-gift', color: '#a5f3fc' },
+                { text: 'Sorry', icon: 'fa-face-sad-tear', color: '#e5e7eb' },
+                { text: '20%', icon: 'fa-star', color: '#6ee7b7' },
+                { text: 'Sorry', icon: 'fa-face-sad-tear', color: '#e5e7eb' }
+            ];
+            const segmentAngle = 360 / segments.length;
+            wheel.innerHTML = '';
+            wheel.style.background = `conic-gradient(${
+                segments.map((seg, i) => `${seg.color} ${i * segmentAngle}deg ${(i+1) * segmentAngle}deg`).join(', ')
+            })`;
+            
+            segments.forEach((seg, i) => {
+                const textDiv = document.createElement('div');
+                textDiv.className = 'absolute w-full h-full';
+                textDiv.style.transform = `rotate(${i * segmentAngle + segmentAngle / 2}deg)`;
+                textDiv.innerHTML = `<span class="absolute top-6 left-1/2 -translate-x-1/2 font-bold text-gray-700 flex flex-col items-center gap-1"><i class="fa-solid ${seg.icon}"></i> ${seg.text}</span>`;
+                wheel.appendChild(textDiv);
+            });
+        }
+        
+        document.getElementById('spin-btn').addEventListener('click', () => {
+             const spinBtn = document.getElementById('spin-btn');
+             const spinResult = document.getElementById('spin-result');
+             const spinWheel = document.getElementById('spin-wheel');
+             const segments = [
+                { text: '5% OFF', code: 'SPIN5', percent: 5 },
+                { text: 'Try Again', code: 'LOSE' },
+                { text: '10% OFF', code: 'SPIN10', percent: 10 },
+                { text: 'Try Again', code: 'LOSE' },
+                { text: '20% OFF', code: 'SPIN20', percent: 20 },
+                { text: 'Try Again', code: 'LOSE' }
+            ];
+            
+            spinBtn.disabled = true;
+            spinResult.textContent = 'Spinning...';
+            localStorage.setItem('lastSpinTimestamp', Date.now());
+            
+            const randomSpins = Math.floor(Math.random() * 4) + 5;
+            const randomStopIndex = Math.floor(Math.random() * segments.length);
+            const segmentAngle = 360 / segments.length;
+            const stopAngle = (randomStopIndex * segmentAngle) + (segmentAngle / 2);
+            const totalRotation = (randomSpins * 360) + stopAngle;
+            
+            spinWheel.style.transform = `rotate(${totalRotation}deg)`;
 
-        promoCloseBtn.addEventListener('click', () => {
-            promoModal.classList.remove('modal-enter-active');
-            promoModal.classList.add('hidden');
-        });
-        promoShopNowBtn.addEventListener('click', () => {
-            promoModal.classList.remove('modal-enter-active');
-            promoModal.classList.add('hidden');
+            setTimeout(() => {
+                const prize = segments[randomStopIndex];
+                if (prize.code !== 'LOSE') {
+                     spinResult.innerHTML = `🎉 You won! Your coupon is: <strong class="bg-yellow-200 text-yellow-800 px-2 rounded">${prize.code}</strong>`;
+                } else {
+                     spinResult.textContent = 'Better luck next time!';
+                }
+            }, 5000);
         });
         
+        function updateAuthUI() {
+            const authDesktop = document.getElementById('auth-buttons-desktop');
+            const authMobile = document.getElementById('auth-buttons-mobile');
+            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+
+            let desktopHTML = '';
+            let mobileHTML = '';
+
+            if (loggedInUser) {
+                desktopHTML = `<div class="flex items-center gap-4"><span class="font-semibold text-gray-700">Hi, ${loggedInUser.name}</span><button id="logout-btn-desktop" class="text-gray-600 hover:text-teal-600 font-medium">Logout</button></div>`;
+                mobileHTML = `<div class="py-3 px-4 text-gray-800 font-semibold">Hi, ${loggedInUser.name}</div><button id="logout-btn-mobile" class="w-full text-left block py-3 px-4 text-red-600 hover:bg-red-50">Logout</button>`;
+                document.getElementById('name').value = loggedInUser.name;
+            } else {
+                desktopHTML = `<button id="login-signup-btn-desktop" class="bg-teal-600 text-white font-bold py-2 px-5 rounded-full hover:bg-teal-700 transition btn-glow">Login / Sign Up</button>`;
+                mobileHTML = `<button id="login-signup-btn-mobile" class="w-full text-left bg-teal-600 text-white font-bold py-3 px-4 rounded-lg">Login / Sign Up</button>`;
+                document.getElementById('name').value = '';
+            }
+
+            authDesktop.innerHTML = desktopHTML;
+            authMobile.innerHTML = mobileHTML;
+
+            if (loggedInUser) {
+                document.getElementById('logout-btn-desktop').addEventListener('click', handleLogout);
+                document.getElementById('logout-btn-mobile').addEventListener('click', handleLogout);
+            } else {
+                document.getElementById('login-signup-btn-desktop').addEventListener('click', openAuthModal);
+                document.getElementById('login-signup-btn-mobile').addEventListener('click', openAuthModal);
+            }
+        }
+
+        function openAuthModal() {
+            authModal.classList.remove('hidden');
+            authModal.classList.add('modal-enter-active');
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('loggedInUser');
+            updateAuthUI();
+        }
+
+        function handleSignUp(e) {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const errorEl = document.getElementById('signup-error');
+
+            if (!name || !email || !password) {
+                errorEl.textContent = 'All fields are required.';
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            if (users.find(user => user.email === email)) {
+                errorEl.textContent = 'An account with this email already exists.';
+                return;
+            }
+            
+            errorEl.textContent = '';
+            const newUser = { name, email, password };
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('loggedInUser', JSON.stringify(newUser));
+            
+            authModal.classList.add('hidden');
+            updateAuthUI();
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const errorEl = document.getElementById('login-error');
+
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                errorEl.textContent = '';
+                localStorage.setItem('loggedInUser', JSON.stringify(user));
+                authModal.classList.add('hidden');
+                updateAuthUI();
+            } else {
+                errorEl.textContent = 'Invalid email or password.';
+            }
+        }
+        
+        // --- Event Listeners & Initialization ---
+        document.getElementById('hamburger-btn').addEventListener('click', () => document.getElementById('mobile-menu').classList.toggle('hidden'));
+        document.querySelectorAll('#mobile-menu a, #promo-shop-now').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.add('hidden');
+                promoModal.classList.add('hidden');
+            });
+        });
+        
+        searchBar.addEventListener('input', filterAndRender);
+        medicineSelect.addEventListener('change', updatePriceDetails);
         document.getElementById('show-coupon-btn').addEventListener('click', (e) => {
             e.preventDefault();
             document.getElementById('coupon-section').classList.toggle('hidden');
         });
         document.getElementById('apply-coupon-btn').addEventListener('click', applyCoupon);
+        document.getElementById('get-location-btn').addEventListener('click', () => {});
+        document.getElementById('booking-form').addEventListener('submit', handleBookingSubmit);
+        document.getElementById('modal-close').addEventListener('click', () => document.getElementById('modal').classList.add('hidden'));
+        document.getElementById('promo-close-btn').addEventListener('click', () => promoModal.classList.add('hidden'));
+        document.getElementById('spin-win-nav-btn').addEventListener('click', handleSpinWin);
+        document.getElementById('spin-win-mobile-btn').addEventListener('click', handleSpinWin);
+        document.getElementById('spin-win-close-btn').addEventListener('click', () => spinWinModal.classList.add('hidden'));
+        
+        document.getElementById('auth-close-btn').addEventListener('click', () => authModal.classList.add('hidden'));
+        document.getElementById('login-tab-btn').addEventListener('click', () => {
+            document.getElementById('login-tab-btn').classList.add('text-teal-600', 'border-teal-600');
+            document.getElementById('signup-tab-btn').classList.remove('text-teal-600', 'border-teal-600');
+            document.getElementById('login-form').classList.remove('hidden');
+            document.getElementById('signup-form').classList.add('hidden');
+        });
+        document.getElementById('signup-tab-btn').addEventListener('click', () => {
+            document.getElementById('signup-tab-btn').classList.add('text-teal-600', 'border-teal-600');
+            document.getElementById('login-tab-btn').classList.remove('text-teal-600', 'border-teal-600');
+            document.getElementById('signup-form').classList.remove('hidden');
+            document.getElementById('login-form').classList.add('hidden');
+        });
+        document.getElementById('login-form').addEventListener('submit', handleLogin);
+        document.getElementById('signup-form').addEventListener('submit', handleSignUp);
+        document.getElementById('hero-order-now-btn').addEventListener('click', () => {
+             if (localStorage.getItem('loggedInUser')) {
+                 document.getElementById('booking-section').scrollIntoView();
+             } else {
+                 openAuthModal();
+             }
+        });
         
         document.getElementById('year').textContent = new Date().getFullYear();
         createShimmerCards();
         loadMedicinesFromSheet();
         populateScrollingBanners();
+        createSpinWheel();
+        updateAuthUI();
     });
     </script>
 </body>
 </html>
+
