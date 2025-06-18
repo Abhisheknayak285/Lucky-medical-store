@@ -698,7 +698,7 @@
                 updatePlaceOrderButtonStatus();
                 return;
             }
-            locationStatus.textContent = "Requesting permission...";
+            locationStatus.textContent = "Fetching your location..."; // More user-friendly
             locationStatus.className = "text-sm text-center mt-2 text-blue-500";
             placeOrderBtn.disabled = true; // Disable while fetching location
 
@@ -711,19 +711,20 @@
                     const distance = haversineDistance(STORE_LATITUDE, STORE_LONGITUDE, userLatitude, userLongitude);
                     
                     if (distance <= SERVICE_RADIUS_METERS) {
-                        locationStatus.innerHTML = `<i class="fa-solid fa-check-circle text-green-600"></i> Location captured! You are ${distance.toFixed(1)}m from the store.`;
+                        locationStatus.innerHTML = `<i class="fa-solid fa-check-circle text-green-600"></i> Location confirmed! You are ${distance.toFixed(1)}m from the store.`;
                         locationStatus.className = "text-sm text-center mt-2 text-green-600 font-semibold";
                         isLocationAccepted = true;
                     } else {
-                        locationStatus.innerHTML = `<i class="fa-solid fa-xmark-circle text-red-600"></i> Service not available. You are ${distance.toFixed(1)}m away, but we serve only within ${SERVICE_RADIUS_METERS}m.`;
-                        locationStatus.className = "text-sm text-center mt-2 text-red-600 font-semibold";
+                        // --- MODIFIED MESSAGE HERE ---
+                        locationStatus.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-orange-500"></i> We're sorry, our delivery service is currently unavailable at your location.<br>You are ${distance.toFixed(1)}m away, but we serve within ${SERVICE_RADIUS_METERS}m.`;
+                        locationStatus.className = "text-sm text-center mt-2 text-orange-600 font-semibold";
                         isLocationAccepted = false;
                         document.getElementById('location-coords').value = ""; // Clear coordinates if out of range
                     }
                     updatePlaceOrderButtonStatus(); // Update button after location check
                 },
                 (error) => {
-                    locationStatus.textContent = "Could not get location. Please allow location access. Service unavailable.";
+                    locationStatus.textContent = "Could not pinpoint your location. Please ensure location services are enabled for your browser.";
                     locationStatus.className = "text-sm text-center mt-2 text-red-500";
                     isLocationAccepted = false;
                     document.getElementById('location-coords').value = "";
