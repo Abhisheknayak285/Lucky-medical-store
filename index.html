@@ -205,10 +205,10 @@
         const COUPON_CODE = 'LUCKY15';
         
         // Store location (Lucky Medical Store) coordinates - Dindoli, Surat
-        // THESE COORDINATES HAVE BEEN UPDATED TO THE PRECISE ONES YOU PROVIDED (21.143466, 72.881634)
         const STORE_LATITUDE = 21.143466; 
         const STORE_LONGITUDE = 72.881634; 
-        const SERVICE_RADIUS_METERS = 10; // 10 meters radius
+        // CHANGED SERVICE_RADIUS_METERS from 10 to 2000 (2 kilometers)
+        const SERVICE_RADIUS_METERS = 2000; 
 
         let userLatitude = null;
         let userLongitude = null;
@@ -468,7 +468,7 @@
             }
 
             if (!isLocationAccepted) {
-                showModal("Location Required", "Please allow and confirm your location to place an order. Service is only available within 10 meters of the store.", '<i class="fa-solid fa-map-marker-alt text-red-500 fa-3x"></i>');
+                showModal("Location Required", "Please allow and confirm your location to place an order. Service is only available within 2 kilometers of the store.", '<i class="fa-solid fa-map-marker-alt text-red-500 fa-3x"></i>');
                 return;
             }
 
@@ -715,13 +715,13 @@
                         locationStatus.className = "text-sm text-center mt-2 text-green-600 font-semibold";
                         isLocationAccepted = true;
                     } else {
-                        // --- MODIFIED MESSAGE HERE for better presentation ---
+                        // --- MODIFIED MESSAGE for 2KM range ---
                         locationStatus.innerHTML = `
                             <div class="text-xl font-bold text-red-600 mb-1">
                                 <i class="fa-solid fa-circle-xmark mr-2"></i> We're sorry!
                             </div>
-                            <span class="text-lg font-semibold text-gray-700">Our delivery service is currently unavailable at your location.</span>
-                            <p class="text-md text-gray-500 mt-2">We serve within ${SERVICE_RADIUS_METERS} meters of our store.</p>
+                            <span class="text-lg md:text-xl font-semibold text-gray-700">Our delivery service is currently unavailable at your location.</span>
+                            <p class="text-md text-gray-500 mt-2">We serve within ${SERVICE_RADIUS_METERS / 1000} km of our store.</p>
                         `;
                         locationStatus.className = "text-center mt-2"; // Remove previous class for more control with new HTML
                         isLocationAccepted = false;
