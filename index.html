@@ -715,9 +715,15 @@
                         locationStatus.className = "text-sm text-center mt-2 text-green-600 font-semibold";
                         isLocationAccepted = true;
                     } else {
-                        // --- MODIFIED MESSAGE HERE ---
-                        locationStatus.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-orange-500"></i> We're sorry, our delivery service is currently unavailable at your location.<br>You are ${distance.toFixed(1)}m away, but we serve within ${SERVICE_RADIUS_METERS}m.`;
-                        locationStatus.className = "text-sm text-center mt-2 text-orange-600 font-semibold";
+                        // --- MODIFIED MESSAGE HERE for better presentation ---
+                        locationStatus.innerHTML = `
+                            <div class="text-xl font-bold text-red-600 mb-1">
+                                <i class="fa-solid fa-circle-xmark mr-2"></i> We're sorry!
+                            </div>
+                            <span class="text-lg font-semibold text-gray-700">Our delivery service is currently unavailable at your location.</span>
+                            <p class="text-md text-gray-500 mt-2">We serve within ${SERVICE_RADIUS_METERS} meters of our store.</p>
+                        `;
+                        locationStatus.className = "text-center mt-2"; // Remove previous class for more control with new HTML
                         isLocationAccepted = false;
                         document.getElementById('location-coords').value = ""; // Clear coordinates if out of range
                     }
