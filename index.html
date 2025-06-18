@@ -4,15 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lucky Medical Store - Surat</title>
-    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <!-- Custom Styles -->
     <style>
         html { scroll-behavior: smooth; }
         body { font-family: 'Poppins', sans-serif; background-color: #f8fafc; }
@@ -44,7 +40,6 @@
 </head>
 <body class="text-gray-800">
 
-    <!-- Navigation Bar -->
     <nav class="bg-white/90 backdrop-blur-lg sticky top-0 z-40 shadow-sm">
         <div class="w-full px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
@@ -56,7 +51,6 @@
                     <a href="#home" class="text-gray-600 hover:text-teal-600 font-medium">Home</a>
                     <a href="#medicines-section" class="text-gray-600 hover:text-teal-600 font-medium">Products</a>
                     <button id="spin-win-nav-btn" class="text-gray-600 hover:text-teal-600 font-medium"><i class="fa-solid fa-star mr-1"></i>Spin & Win</button>
-                    <!-- Auth Buttons -->
                     <div id="auth-buttons-desktop" class="flex items-center gap-4"></div>
                 </div>
                 <div class="lg:hidden">
@@ -72,7 +66,6 @@
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
     <header id="home" class="relative bg-gray-800">
         <div class="absolute inset-0">
             <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-20" alt="Pharmacy Background">
@@ -81,25 +74,24 @@
             <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">Lucky Medical Store</h1>
             <p class="text-teal-200 mt-6 text-lg max-w-2xl mx-auto">Your trusted pharmacy in Surat. Fast, reliable, and right at your doorstep.</p>
             <div class="mt-10 flex justify-center gap-4 flex-wrap">
-                 <button id="hero-order-now-btn" class="inline-block bg-teal-500 text-white font-bold py-3 px-8 rounded-full hover:bg-teal-600 transition duration-300 transform hover:scale-105 shadow-lg"><i class="fa-solid fa-pills mr-2"></i>Order Now</button>
-                 <a href="#medicines-section" class="inline-block bg-white/20 backdrop-blur-sm text-white font-bold py-3 px-8 rounded-full hover:bg-white/30 transition duration-300">Browse Products</a>
+                   <button id="hero-order-now-btn" class="inline-block bg-teal-500 text-white font-bold py-3 px-8 rounded-full hover:bg-teal-600 transition duration-300 transform hover:scale-105 shadow-lg"><i class="fa-solid fa-pills mr-2"></i>Order Now</button>
+                   <a href="#medicines-section" class="inline-block bg-white/20 backdrop-blur-sm text-white font-bold py-3 px-8 rounded-full hover:bg-white/30 transition duration-300">Browse Products</a>
             </div>
         </div>
     </header>
 
 
     <main class="container mx-auto p-4 sm:p-6 lg:p-8">
-        <!-- AVAILABLE MEDICINES SECTION -->
         <section id="medicines-section" class="my-16">
             <div class="text-center mb-10"><h2 class="text-3xl font-bold text-gray-800">Find Your Medicines</h2><p class="text-gray-500 mt-1">Search for a product or explore our top picks below.</p><div class="max-w-xl mx-auto mt-6"><div class="relative"><span class="absolute inset-y-0 left-0 flex items-center pl-4"><i class="fa-solid fa-magnifying-glass text-gray-400"></i></span><input type="text" id="search-bar" placeholder="e.g. 'Dolo 650' or 'Cough Syrup'" class="w-full p-4 pl-12 border border-gray-300 rounded-full focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition"></div></div></div>
             
             <div id="initial-prompt" class="max-w-6xl mx-auto hidden">
-                 <h3 class="text-2xl font-bold text-gray-800 text-center mb-6">Top Picks For You</h3>
-                 <div class="w-full overflow-hidden group"><div id="scrolling-banners" class="flex animate-marquee group-hover:paused"></div></div>
-                 <div class="text-center bg-white p-4 rounded-lg shadow-sm border mt-8">
-                    <span class="font-semibold text-gray-600 mr-2">Users Also Search:</span>
-                    <span class="inline-block text-teal-600 font-bold text-lg"><span id="trending-text" class="trending-text"></span></span>
-                 </div>
+                    <h3 class="text-2xl font-bold text-gray-800 text-center mb-6">Top Picks For You</h3>
+                    <div class="w-full overflow-hidden group"><div id="scrolling-banners" class="flex animate-marquee group-hover:paused"></div></div>
+                    <div class="text-center bg-white p-4 rounded-lg shadow-sm border mt-8">
+                        <span class="font-semibold text-gray-600 mr-2">Users Also Search:</span>
+                        <span class="inline-block text-teal-600 font-bold text-lg"><span id="trending-text" class="trending-text"></span></span>
+                    </div>
             </div>
 
             <div id="shimmer-container" class="max-w-6xl mx-auto"></div>
@@ -107,11 +99,10 @@
             <p id="no-results" class="text-center text-gray-500 mt-8 hidden">No medicines found matching your search.</p>
         </section>
 
-        <!-- BOOKING FORM SECTION -->
         <section id="booking-section" class="my-16 max-w-2xl mx-auto bg-white p-8 md:p-10 rounded-2xl shadow-xl border border-gray-100">
             <h2 class="text-3xl font-bold mb-6 text-center">Place Your Order</h2>
             <form id="booking-form" action="https://formspree.io/f/mjkrrbnb" method="POST" class="space-y-6">
-                 <div><label for="medicine-select" class="block text-sm font-medium text-gray-700 mb-1">Selected Medicine</label><select id="medicine-select" name="Medicine" class="w-full p-3 bg-gray-100 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition" disabled><option value="">-- Search and select a product --</option></select></div>
+                    <div><label for="medicine-select" class="block text-sm font-medium text-gray-700 mb-1">Selected Medicine</label><select id="medicine-select" name="Medicine" class="w-full p-3 bg-gray-100 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition" disabled><option value="">-- Search and select a product --</option></select></div>
                 
                 <div id="price-section" class="bg-gray-50 p-4 rounded-lg hidden">
                     <div class="flex justify-between items-center text-gray-700"><span>Price:</span><span id="price-display"></span></div>
@@ -120,34 +111,39 @@
                     <div class="flex justify-between items-center font-bold text-lg"><span>Total:</span><span id="total-display"></span></div>
                 </div>
 
-                 <div>
-                    <a href="#" id="show-coupon-btn" class="text-sm font-semibold text-teal-600 hover:underline">Have a coupon code?</a>
-                    <div id="coupon-section" class="flex gap-2 mt-2 hidden">
-                        <input type="text" id="coupon-input" placeholder="Enter code" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500">
-                        <button type="button" id="apply-coupon-btn" class="bg-gray-700 text-white font-bold px-5 rounded-lg hover:bg-gray-800">Apply</button>
+                    <div>
+                        <a href="#" id="show-coupon-btn" class="text-sm font-semibold text-teal-600 hover:underline">Have a coupon code?</a>
+                        <div id="coupon-section" class="flex gap-2 mt-2 hidden">
+                            <input type="text" id="coupon-input" placeholder="Enter code" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500">
+                            <button type="button" id="apply-coupon-btn" class="bg-gray-700 text-white font-bold px-5 rounded-lg hover:bg-gray-800">Apply</button>
+                        </div>
+                        <p id="coupon-status" class="text-sm mt-1"></p>
                     </div>
-                     <p id="coupon-status" class="text-sm mt-1"></p>
-                </div>
-                 
+                    
                 <div><label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label><input type="text" id="name" name="Customer Name" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500" placeholder="e.g., Aditya Saroj"></div>
                 <div><label for="whatsapp" class="block text-sm font-medium text-gray-700 mb-1">WhatsApp Number</label><input type="tel" id="whatsapp" name="WhatsApp Number" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500" placeholder="e.g., 9876543210"></div>
                 <div><label for="address" class="block text-sm font-medium text-gray-700 mb-1">Full Delivery Address</label><textarea id="address" name="Delivery Address" rows="3" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500" placeholder="B-11 SAI DARSHAN RESIDENCY..."></textarea></div>
+                
                 <input type="hidden" id="location-coords" name="GPS Location">
-                <div><button type="button" id="get-location-btn" class="w-full flex items-center justify-center gap-3 p-3 border-2 border-dashed border-gray-300 rounded-lg hover:bg-gray-50 transition text-gray-600 font-semibold"><i class="fa-solid fa-location-crosshairs text-teal-500"></i> Add Accurate GPS Location (Optional)</button><p id="location-status" class="text-sm text-center mt-2 text-gray-500"></p></div>
-                <div class="pt-4"><button type="submit" class="w-full bg-teal-600 text-white font-bold py-4 px-4 rounded-lg focus:outline-none focus:ring-4 focus:ring-teal-500 focus:ring-opacity-50 flex items-center justify-center gap-3 btn-glow"><i class="fa-regular fa-paper-plane"></i> Confirm & Place Order</button></div>
-                 <input type="hidden" name="Original Price" id="hidden-original-price">
-                 <input type="hidden" name="Discount Applied" id="hidden-discount-applied">
-                 <input type="hidden" name="Final Price" id="hidden-final-price">
+                <div>
+                    <button type="button" id="get-location-btn" class="w-full flex items-center justify-center gap-3 p-3 border-2 border-dashed border-gray-300 rounded-lg hover:bg-gray-50 transition text-gray-600 font-semibold">
+                        <i class="fa-solid fa-location-crosshairs text-teal-500"></i> Get My Current Location
+                    </button>
+                    <p id="location-status" class="text-sm text-center mt-2 text-gray-500">Location must be provided to place an order.</p>
+                </div>
+                
+                <div class="pt-4"><button type="submit" class="w-full bg-teal-600 text-white font-bold py-4 px-4 rounded-lg focus:outline-none focus:ring-4 focus:ring-teal-500 focus:ring-opacity-50 flex items-center justify-center gap-3 btn-glow" id="place-order-btn" disabled><i class="fa-regular fa-paper-plane"></i> Confirm & Place Order</button></div>
+                    <input type="hidden" name="Original Price" id="hidden-original-price">
+                    <input type="hidden" name="Discount Applied" id="hidden-discount-applied">
+                    <input type="hidden" name="Final Price" id="hidden-final-price">
             </form>
         </section>
     </main>
     
-    <!-- FOOTER -->
     <footer class="bg-gray-800 text-white mt-20">
-        <div class="container mx-auto py-10 px-4 text-center"><p class="font-bold text-lg">Lucky Medical Store</p><p class="text-gray-400 mt-2">B-11 SAI DRASHAN RESIDENCY, OPP. UMA PLAZA, KHARWASA ROAD, DINDOLI, SURAT</p><p class="text-gray-400 mt-2">For inquiries, email: <a href="mailto:radhanasaroj7@gmail.com" class="text-teal-400 hover:underline">luckymedicalstore@gmail.com</a></p><div class="mt-4 text-gray-500 text-sm">&copy; <span id="year"></span> Lucky Medical Store . All Rights Reserved.</div></div>
+        <div class="container mx-auto py-10 px-4 text-center"><p class="font-bold text-lg">Lucky Medical Store</p><p class="text-gray-400 mt-2">B-11 SAI DRASHAN RESIDENCY, OPP. UMA PLAZA, KHARWASA ROAD, DINDOLI, SURAT</p><p class="text-gray-400 mt-2">For inquiries, email: <a href="mailto:radhanasaroj7@gmail.com" class="text-teal-400 hover:underline">luckymedicalstore@gmail.com</a></p><div class="mt-4 text-gray-500 text-sm">© <span id="year"></span> Lucky Medical Store . All Rights Reserved.</div></div>
     </footer>
     
-    <!-- MODALS -->
     <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden modal-enter z-50">
         <div class="bg-white p-8 rounded-lg shadow-xl max-w-sm w-full text-center"><div id="modal-icon" class="mb-4"></div><h3 id="modal-title" class="text-xl font-bold mb-3"></h3><p id="modal-message" class="text-gray-600 mb-6 whitespace-pre-line"></p><button id="modal-close" class="w-full bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition">OK</button></div>
     </div>
@@ -161,8 +157,7 @@
         </div>
     </div>
     
-    <!-- Spin and Win Modal -->
-     <div id="spin-win-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden modal-enter z-50">
+    <div id="spin-win-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden modal-enter z-50">
         <div class="bg-gradient-to-br from-teal-50 to-cyan-100 p-8 rounded-2xl shadow-xl max-w-md w-full text-center relative">
              <button id="spin-win-close-btn" class="absolute top-4 right-4 text-gray-600 bg-white/50 hover:bg-white/80 rounded-full w-8 h-8 flex items-center justify-center transition z-20"><i class="fa-solid fa-times"></i></button>
             <h2 class="text-3xl font-bold text-teal-800">Spin & Win!</h2>
@@ -177,31 +172,27 @@
         </div>
     </div>
 
-    <!-- Login/Sign Up Modal -->
     <div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden modal-enter z-50">
         <div class="bg-white rounded-2xl shadow-xl max-w-md w-full relative">
              <button id="auth-close-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition"><i class="fa-solid fa-times fa-lg"></i></button>
              <div class="p-8">
-                <!-- Tabs -->
                 <div class="flex border-b border-gray-200 mb-6">
                     <button id="login-tab-btn" class="w-1/2 py-4 text-center font-semibold text-teal-600 border-b-2 border-teal-600">Login</button>
                     <button id="signup-tab-btn" class="w-1/2 py-4 text-center font-semibold text-gray-500">Sign Up</button>
                 </div>
-                <!-- Login Form -->
                 <form id="login-form" class="space-y-4">
                      <div><label for="login-email" class="block text-sm font-medium text-gray-700">Email</label><input type="email" id="login-email" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
                      <div><label for="login-password" class="block text-sm font-medium text-gray-700">Password</label><input type="password" id="login-password" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
                      <p id="login-error" class="text-red-500 text-sm h-4"></p>
                      <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg btn-glow">Login</button>
                 </form>
-                <!-- Sign Up Form -->
-                 <form id="signup-form" class="space-y-4 hidden">
+                <form id="signup-form" class="space-y-4 hidden">
                      <div><label for="signup-name" class="block text-sm font-medium text-gray-700">Name</label><input type="text" id="signup-name" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
                      <div><label for="signup-email" class="block text-sm font-medium text-gray-700">Email</label><input type="email" id="signup-email" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
                      <div><label for="signup-password" class="block text-sm font-medium text-gray-700">Password</label><input type="password" id="signup-password" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
                      <p id="signup-error" class="text-red-500 text-sm h-4"></p>
                      <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg btn-glow">Create Account</button>
-                </form>
+                 </form>
              </div>
         </div>
     </div>
@@ -213,6 +204,17 @@
         const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-MH4nLsEaIH3oXpTKKI1LEYsOpzP2MXMgtKkdfnKPM8OBuEZEExSwpJGQc9BAM5Xl3w6uDTjWh-oU/pub?gid=0&single=true&output=csv';
         const COUPON_CODE = 'LUCKY15';
         
+        // Store location (Lucky Medical Store) coordinates - Dindoli, Surat
+        // You'll need to get the precise latitude and longitude for "B-11 SAI DARSHAN RESIDENCY, OPP. UMA PLAZA, KHARWASA ROAD, DINDOLI, SURAT"
+        // I'm using a placeholder for now. Replace these with actual coordinates.
+        const STORE_LATITUDE = 21.2289; // Placeholder for Surat, Dindoli latitude
+        const STORE_LONGITUDE = 72.8368; // Placeholder for Surat, Dindoli longitude
+        const SERVICE_RADIUS_METERS = 10; // 10 meters radius
+
+        let userLatitude = null;
+        let userLongitude = null;
+        let isLocationAccepted = false; // Flag to track if location is accepted and within range
+
         const featuredProducts = [
             { name: "D-Fresh", image: "https://gargagencypharma.com/wp-content/uploads/2024/09/63.-D-FRESH-MR-TAB-10TAB-600x500-1.jpg", bgColor: "from-teal-600 to-teal-800" },
             { name: "Revital H", image: "https://cdn01.pharmeasy.in/dam/products_otc/270551/revital-h-men-multivitamin-with-zinc-ginseng-for-immunity-strong-bones-energy-10-capsules-6.1-1729854670.jpg", bgColor: "from-indigo-700 to-indigo-900" },
@@ -234,6 +236,10 @@
         const promoModal = document.getElementById('promo-modal');
         const spinWinModal = document.getElementById('spin-win-modal');
         const authModal = document.getElementById('auth-modal');
+        const getLocationBtn = document.getElementById('get-location-btn');
+        const locationStatus = document.getElementById('location-status');
+        const placeOrderBtn = document.getElementById('place-order-btn');
+
 
         function createShimmerCards() {
             shimmerContainer.innerHTML = '';
@@ -367,6 +373,9 @@
             document.getElementById('hidden-original-price').value = `₹${currentPrice.toFixed(2)}`;
             document.getElementById('hidden-discount-applied').value = discountInfo.applied ? `Yes (${discountInfo.code} - ${discountInfo.percent}%)` : 'No';
             document.getElementById('hidden-final-price').value = `₹${finalPrice.toFixed(2)}`;
+            
+            // Enable/disable place order button based on location status
+            updatePlaceOrderButtonStatus();
         }
 
         function applyCoupon() {
@@ -458,7 +467,12 @@
                 openAuthModal();
                 return;
             }
-            
+
+            if (!isLocationAccepted) {
+                showModal("Location Required", "Please allow and confirm your location to place an order. Service is only available within 10 meters of the store.", '<i class="fa-solid fa-map-marker-alt text-red-500 fa-3x"></i>');
+                return;
+            }
+
             const form = e.target;
             const data = new FormData(form);
             if (!data.get('Medicine') || !data.get('Customer Name') || !data.get('Delivery Address') || !data.get('WhatsApp Number')) {
@@ -469,7 +483,11 @@
                 if (response.ok) {
                     showModal("Order Placed Successfully!", "Thank you for your order. We have received it and will contact you on WhatsApp shortly.", '<i class="fa-solid fa-circle-check text-green-500 fa-3x"></i>');
                     form.reset();
-                    document.getElementById('location-status').textContent = "";
+                    document.getElementById('location-coords').value = ""; // Clear GPS location after order
+                    locationStatus.textContent = "Location must be provided to place an order."; // Reset status message
+                    locationStatus.className = "text-sm text-center mt-2 text-gray-500";
+                    isLocationAccepted = false; // Reset location flag
+                    updatePlaceOrderButtonStatus(); // Update button status
                     document.getElementById('price-section').classList.add('hidden');
                     updateAuthUI(); // Refill name if logged in
                 } else {
@@ -655,26 +673,81 @@
             }
         }
         
+        // --- Haversine formula to calculate distance between two lat/lon points ---
+        function haversineDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371e3; // metres
+            const φ1 = lat1 * Math.PI / 180; // φ, λ in radians
+            const φ2 = lat2 * Math.PI / 180;
+            const Δφ = (lat2 - lat1) * Math.PI / 180;
+            const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+            const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                      Math.cos(φ1) * Math.cos(φ2) *
+                      Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+            const d = R * c; // in metres
+            return d;
+        }
+
         function handleGetLocation() {
-            const locationStatus = document.getElementById('location-status');
-            const locationCoordsInput = document.getElementById('location-coords');
             if (!navigator.geolocation) {
-                showModal("Feature Not Supported", "Geolocation is not supported by your browser.", '<i class="fa-solid fa-circle-exclamation text-red-500 fa-3x"></i>'); return;
+                showModal("Feature Not Supported", "Geolocation is not supported by your browser.", '<i class="fa-solid fa-circle-exclamation text-red-500 fa-3x"></i>');
+                locationStatus.textContent = "Geolocation not supported.";
+                locationStatus.className = "text-sm text-center mt-2 text-red-500";
+                isLocationAccepted = false;
+                updatePlaceOrderButtonStatus();
+                return;
             }
             locationStatus.textContent = "Requesting permission...";
             locationStatus.className = "text-sm text-center mt-2 text-blue-500";
+            placeOrderBtn.disabled = true; // Disable while fetching location
+
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    locationCoordsInput.value = `https://www.google.com/maps?q=${position.coords.latitude},${position.coords.longitude}`;
-                    locationStatus.innerHTML = `<i class="fa-solid fa-check-circle text-green-600"></i> Location captured!`;
-                    locationStatus.className = "text-sm text-center mt-2 text-green-600 font-semibold";
+                    userLatitude = position.coords.latitude;
+                    userLongitude = position.coords.longitude;
+                    document.getElementById('location-coords').value = `${userLatitude},${userLongitude}`;
+
+                    const distance = haversineDistance(STORE_LATITUDE, STORE_LONGITUDE, userLatitude, userLongitude);
+                    
+                    if (distance <= SERVICE_RADIUS_METERS) {
+                        locationStatus.innerHTML = `<i class="fa-solid fa-check-circle text-green-600"></i> Location captured! You are ${distance.toFixed(1)}m from the store.`;
+                        locationStatus.className = "text-sm text-center mt-2 text-green-600 font-semibold";
+                        isLocationAccepted = true;
+                    } else {
+                        locationStatus.innerHTML = `<i class="fa-solid fa-xmark-circle text-red-600"></i> Service not available. You are ${distance.toFixed(1)}m away, but we serve only within ${SERVICE_RADIUS_METERS}m.`;
+                        locationStatus.className = "text-sm text-center mt-2 text-red-600 font-semibold";
+                        isLocationAccepted = false;
+                        document.getElementById('location-coords').value = ""; // Clear coordinates if out of range
+                    }
+                    updatePlaceOrderButtonStatus(); // Update button after location check
                 },
                 (error) => {
-                    locationStatus.textContent = "Could not get location. Please enter address manually.";
+                    locationStatus.textContent = "Could not get location. Please allow location access. Service unavailable.";
                     locationStatus.className = "text-sm text-center mt-2 text-red-500";
-                }
+                    isLocationAccepted = false;
+                    document.getElementById('location-coords').value = "";
+                    updatePlaceOrderButtonStatus(); // Update button after location failure
+                    console.error("Geolocation error:", error);
+                },
+                { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
             );
         }
+
+        function updatePlaceOrderButtonStatus() {
+            // Button is enabled only if location is accepted (within range) AND a medicine is selected
+            const isMedicineSelected = medicineSelect.value !== "";
+            placeOrderBtn.disabled = !(isLocationAccepted && isMedicineSelected);
+            if (!isLocationAccepted) {
+                placeOrderBtn.textContent = 'Please Get Your Location to Order';
+            } else if (!isMedicineSelected) {
+                placeOrderBtn.textContent = 'Select a Medicine to Order';
+            } else {
+                placeOrderBtn.innerHTML = '<i class="fa-regular fa-paper-plane"></i> Confirm & Place Order';
+            }
+        }
+
 
         // --- Event Listeners & Initialization ---
         document.getElementById('hamburger-btn').addEventListener('click', () => document.getElementById('mobile-menu').classList.toggle('hidden'));
@@ -692,7 +765,10 @@
             document.getElementById('coupon-section').classList.toggle('hidden');
         });
         document.getElementById('apply-coupon-btn').addEventListener('click', applyCoupon);
-        document.getElementById('get-location-btn').addEventListener('click', handleGetLocation);
+        
+        // Location button listener (now required)
+        getLocationBtn.addEventListener('click', handleGetLocation); 
+        
         document.getElementById('booking-form').addEventListener('submit', handleBookingSubmit);
         document.getElementById('modal-close').addEventListener('click', () => document.getElementById('modal').classList.add('hidden'));
         document.getElementById('promo-close-btn').addEventListener('click', () => promoModal.classList.add('hidden'));
@@ -729,6 +805,13 @@
         populateScrollingBanners();
         createSpinWheel();
         updateAuthUI();
+
+        // Initial check for place order button status
+        updatePlaceOrderButtonStatus();
+
+        // Trigger location request on page load or after a short delay
+        // This makes it compulsory as soon as the user visits
+        setTimeout(handleGetLocation, 1000); 
     });
     </script>
 </body>
