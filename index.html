@@ -207,8 +207,7 @@
         // Store location (Lucky Medical Store) coordinates - Dindoli, Surat
         const STORE_LATITUDE = 21.143466; 
         const STORE_LONGITUDE = 72.881634; 
-        // CHANGED SERVICE_RADIUS_METERS from 10 to 2000 (2 kilometers)
-        const SERVICE_RADIUS_METERS = 2000; 
+        const SERVICE_RADIUS_METERS = 2000; // 2 kilometers
 
         let userLatitude = null;
         let userLongitude = null;
@@ -227,7 +226,7 @@
         let trendingInterval;
 
         const searchBar = document.getElementById('search-bar');
-        const medicineSelect = document.getElementById('medicine-select');
+        const medicineSelect = document = document.getElementById('medicine-select');
         const medicineGrid = document.getElementById('medicine-grid');
         const noResultsMsg = document.getElementById('no-results');
         const initialPrompt = document.getElementById('initial-prompt');
@@ -468,6 +467,7 @@
             }
 
             if (!isLocationAccepted) {
+                // Modified message to reflect 2km
                 showModal("Location Required", "Please allow and confirm your location to place an order. Service is only available within 2 kilometers of the store.", '<i class="fa-solid fa-map-marker-alt text-red-500 fa-3x"></i>');
                 return;
             }
@@ -711,11 +711,12 @@
                     const distance = haversineDistance(STORE_LATITUDE, STORE_LONGITUDE, userLatitude, userLongitude);
                     
                     if (distance <= SERVICE_RADIUS_METERS) {
-                        locationStatus.innerHTML = `<i class="fa-solid fa-check-circle text-green-600"></i> Location confirmed! You are ${distance.toFixed(1)}m from the store.`;
+                        // MODIFIED: Simplified success message
+                        locationStatus.innerHTML = `<i class="fa-solid fa-check-circle text-green-600"></i> Location confirmed!`;
                         locationStatus.className = "text-sm text-center mt-2 text-green-600 font-semibold";
                         isLocationAccepted = true;
                     } else {
-                        // --- MODIFIED MESSAGE for 2KM range ---
+                        // Existing modified message for out-of-range
                         locationStatus.innerHTML = `
                             <div class="text-xl font-bold text-red-600 mb-1">
                                 <i class="fa-solid fa-circle-xmark mr-2"></i> We're sorry!
