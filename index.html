@@ -769,8 +769,8 @@
                 if (result.success) {
                     localStorage.setItem('loggedInUser', JSON.stringify({ name: result.name, email: result.email }));
                     errorEl.textContent = '';
-                    document.getElementById('auth-modal').classList.add('hidden');
-                    updateAuthUI();
+                    document.getElementById('auth-modal').classList.add('hidden'); // Close the whole auth modal on successful login
+                    updateAuthUI(); // Update nav bar for logged-in status
                     showModal("Login Successful!", `Welcome back, ${result.name}!`, '<i class="fa-solid fa-circle-check text-green-500 fa-3x"></i>');
                 } else {
                     errorEl.textContent = result.message;
@@ -809,23 +809,33 @@
                 console.log("Verify OTP API response:", result);
 
                 if (result.success) {
-                    // Show the success modal first
-                    showModal("Verification Successful!", result.message + "\nYou can now log in.", '<i class="fa-solid fa-check-circle text-green-500 fa-3x"></i>');
+                    // Step 1: Show the "OTP Verified" message in the general purpose modal (id="modal")
+                    showModal("OTP Verified!", result.message, '<i class="fa-solid fa-check-circle text-green-500 fa-3x"></i>');
                     
-                    // Add a short delay (e.g., 2 seconds) before changing the forms and closing the modal
+                    // Step 2: After a short delay, transition the authentication modal's content
                     setTimeout(() => {
-                        document.getElementById('otp-verification-section').classList.add('hidden');
-                        document.getElementById('login-form').classList.remove('hidden');
-                        document.getElementById('otp-input').value = '';
-                        document.getElementById('otp-email').value = '';
-                        document.getElementById('login-email').value = email;
-                        errorEl.textContent = '';
-                        document.getElementById('modal').classList.add('hidden'); // Hide general modal after delay
-                        
-                        // Close the auth modal as well if it's open
-                        document.getElementById('auth-modal').classList.add('hidden'); 
+                        console.log("OTP verification timeout: Transitioning auth modal content.");
+                        // Ensure the main auth modal (id="auth-modal") remains visible or becomes visible
+                        // It should already be visible if they were on the OTP screen.
+                        authModal.classList.remove('hidden'); 
+                        authModal.classList.add('modal-enter-active'); // Ensure animation state is correct
 
-                    }, 2000); // 2000 milliseconds = 2 seconds. Adjust as needed.
+                        // Hide the OTP form and show the login form within authModal
+                        document.getElementById('otp-verification-section').classList.add('hidden');
+                        document.getElementById('login-form').classList.remove('hidden'); 
+                        document.getElementById('login-tab-btn').click(); // Make sure login tab is active visually
+
+                        // Clear OTP input fields
+                        document.getElementById('otp-input').value = ''; 
+                        document.getElementById('otp-email').value = ''; 
+                        document.getElementById('login-email').value = email; // Pre-fill login email
+                        errorEl.textContent = ''; // Clear any OTP error messages
+
+                        // Finally, hide the *temporary* "OTP Verified" success modal (id="modal")
+                        document.getElementById('modal').classList.add('hidden'); 
+                        console.log("Transition to login form complete within auth modal.");
+
+                    }, 2000); // 2 seconds delay
                     
                 } else {
                     errorEl.textContent = result.message;
@@ -875,10 +885,12 @@
         }
 
         // --- CUSTOM FORGOT PASSWORD MODAL LOGIC (UPDATED) ---
+        // This function is now called when 'Forgot Password?' is clicked.
         async function openForgotPasswordModal() {
             console.log("openForgotPasswordModal called.");
-            // Hide the main auth modal first if it's open, or just ensure it's not shown.
+            // Hide the main auth modal to show the specific forgot password modal
             authModal.classList.add('hidden'); 
+
             forgotPasswordModal.classList.remove('hidden');
             forgotPasswordModal.classList.add('modal-enter-active');
             forgotEmailInput.value = ''; // Clear previous email
@@ -912,6 +924,7 @@
 
                 if (result.success) {
                     forgotPasswordModal.classList.add('hidden'); // Close forgot password modal
+                    // Use the general purpose modal (id="modal") to show the success message
                     showModal("Password Reset", result.message, '<i class="fa-solid fa-envelope text-blue-500 fa-3x"></i>');
                 } else {
                     forgotEmailError.textContent = result.message; // Display error in forgot password modal
@@ -952,12 +965,17 @@
 
                 if (result.success) {
                     showModal("Password Reset Successful", result.message + "\nYou can now log in with your new password.", '<i class="fa-solid fa-check-circle text-green-500 fa-3x"></i>');
-                    document.getElementById('reset-password-section').classList.add('hidden');
+                    
                     // After reset, show main auth modal and switch to login tab
-                    authModal.classList.remove('hidden');
-                    document.getElementById('login-tab-btn').click();
-                    document.getElementById('login-email').value = email;
-                    errorEl.textContent = '';
+                    // Add a delay here for the message to be seen
+                    setTimeout(() => {
+                        document.getElementById('reset-password-section').classList.add('hidden');
+                        authModal.classList.remove('hidden'); // Ensure main auth modal is open
+                        document.getElementById('login-tab-btn').click(); // Switch to login tab
+                        document.getElementById('login-email').value = email; // Pre-fill login email
+                        errorEl.textContent = ''; // Clear reset error on success
+                        document.getElementById('modal').classList.add('hidden'); // Hide general modal after delay
+                    }, 2000); // 2 seconds delay
                 } else {
                     errorEl.textContent = result.message;
                 }
