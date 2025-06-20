@@ -159,7 +159,7 @@
     
     <div id="spin-win-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden modal-enter z-50">
         <div class="bg-gradient-to-br from-teal-50 to-cyan-100 p-8 rounded-2xl shadow-xl max-w-md w-full text-center relative">
-             <button id="spin-win-close-btn" class="absolute top-4 right-4 text-gray-600 bg-white/50 hover:bg-white/80 rounded-full w-8 h-8 flex items-center justify-center transition z-20"><i class="fa-solid fa-times"></i></button>
+               <button id="spin-win-close-btn" class="absolute top-4 right-4 text-gray-600 bg-white/50 hover:bg-white/80 rounded-full w-8 h-8 flex items-center justify-center transition z-20"><i class="fa-solid fa-times"></i></button>
             <h2 class="text-3xl font-bold text-teal-800">Spin & Win!</h2>
             <p class="text-gray-600 mt-2 mb-6">Spin the wheel to win an exciting discount coupon!</p>
             <div class="relative w-64 h-64 mx-auto mb-6">
@@ -174,26 +174,61 @@
 
     <div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden modal-enter z-50">
         <div class="bg-white rounded-2xl shadow-xl max-w-md w-full relative">
-             <button id="auth-close-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition"><i class="fa-solid fa-times fa-lg"></i></button>
-             <div class="p-8">
-                <div class="flex border-b border-gray-200 mb-6">
+               <button id="auth-close-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition"><i class="fa-solid fa-times fa-lg"></i></button>
+               <div class="p-8">
+                 <div class="flex border-b border-gray-200 mb-6">
                     <button id="login-tab-btn" class="w-1/2 py-4 text-center font-semibold text-teal-600 border-b-2 border-teal-600">Login</button>
                     <button id="signup-tab-btn" class="w-1/2 py-4 text-center font-semibold text-gray-500">Sign Up</button>
                 </div>
+
                 <form id="login-form" class="space-y-4">
-                     <div><label for="login-email" class="block text-sm font-medium text-gray-700">Email</label><input type="email" id="login-email" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
-                     <div><label for="login-password" class="block text-sm font-medium text-gray-700">Password</label><input type="password" id="login-password" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
-                     <p id="login-error" class="text-red-500 text-sm h-4"></p>
-                     <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg btn-glow">Login</button>
+                    <div><label for="login-email" class="block text-sm font-medium text-gray-700">Email</label><input type="email" id="login-email" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
+                    <div><label for="login-password" class="block text-sm font-medium text-gray-700">Password</label><input type="password" id="login-password" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
+                    <p id="login-error" class="text-red-500 text-sm h-4"></p>
+                    <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg btn-glow">Login</button>
+                    <button id="forgot-password-link" type="button" class="w-full text-center text-sm text-teal-600 hover:underline mt-2">Forgot Password?</button>
                 </form>
+
                 <form id="signup-form" class="space-y-4 hidden">
-                     <div><label for="signup-name" class="block text-sm font-medium text-gray-700">Name</label><input type="text" id="signup-name" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
-                     <div><label for="signup-email" class="block text-sm font-medium text-gray-700">Email</label><input type="email" id="signup-email" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
-                     <div><label for="signup-password" class="block text-sm font-medium text-gray-700">Password</label><input type="password" id="signup-password" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
-                     <p id="signup-error" class="text-red-500 text-sm h-4"></p>
-                     <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg btn-glow">Create Account</button>
-                 </form>
-             </div>
+                    <div><label for="signup-name" class="block text-sm font-medium text-gray-700">Name</label><input type="text" id="signup-name" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
+                    <div><label for="signup-email" class="block text-sm font-medium text-gray-700">Email</label><input type="email" id="signup-email" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
+                    <div><label for="signup-password" class="block text-sm font-medium text-gray-700">Password</label><input type="password" id="signup-password" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
+                    <p id="signup-error" class="text-red-500 text-sm h-4"></p>
+                    <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg btn-glow">Create Account</button>
+                </form>
+
+                <div id="otp-verification-section" class="space-y-4 hidden">
+                    <p class="text-gray-600 text-center">An OTP has been sent to your email. Please enter it below to verify your account.</p>
+                    <div>
+                        <label for="otp-email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="otp-email" required class="mt-1 w-full p-3 bg-gray-100 border border-gray-300 rounded-lg" readonly>
+                    </div>
+                    <div>
+                        <label for="otp-input" class="block text-sm font-medium text-gray-700">OTP</label>
+                        <input type="text" id="otp-input" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg" placeholder="Enter 6-digit OTP">
+                    </div>
+                    <p id="otp-error" class="text-red-500 text-sm h-4"></p>
+                    <button type="button" id="verify-otp-btn" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg btn-glow">Verify OTP</button>
+                    <button type="button" id="resend-otp-btn" class="w-full text-center text-sm text-teal-600 hover:underline mt-2">Resend OTP</button>
+                </div>
+
+                <div id="reset-password-section" class="space-y-4 hidden">
+                    <h3 class="text-xl font-bold text-center mb-4">Reset Your Password</h3>
+                    <div>
+                        <label for="reset-email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="reset-email" required class="mt-1 w-full p-3 bg-gray-100 border border-gray-300 rounded-lg" readonly>
+                    </div>
+                    <div>
+                        <label for="reset-token-input" class="block text-sm font-medium text-gray-700">Reset Token</label>
+                        <input type="text" id="reset-token-input" required class="mt-1 w-full p-3 bg-gray-100 border border-gray-300 rounded-lg" readonly>
+                    </div>
+                    <div>
+                        <label for="new-password-input" class="block text-sm font-medium text-gray-700">New Password</label>
+                        <input type="password" id="new-password-input" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg"></div>
+                    <p id="reset-password-error" class="text-red-500 text-sm h-4"></p>
+                    <button type="button" id="submit-reset-password-btn" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg btn-glow">Reset Password</button>
+                </div>
+               </div>
         </div>
     </div>
 
@@ -201,8 +236,11 @@
     <script>
     document.addEventListener('DOMContentLoaded', async function() {
         
+        // --- IMPORTANT: CONFIGURE THESE ---
         const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-MH4nLsEaIH3oXpTKKI1LEYsOpzP2MXMgtKkdfnKPM8OBuEZEExSwpJGQc9BAM5Xl3w6uDTjWh-oU/pub?gid=0&single=true&output=csv';
-        const COUPON_CODE = 'LUCKY15';
+        // PASTE YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL HERE
+        const APPS_SCRIPT_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzX146U5AcAsUIScft-XpuRmL-WhavdvLSzUouaW-h8ufbD0kRU5Gv91EDvzUfvBIhrAw/exec'; 
+        const COUPON_CODE = 'LUCKY15'; // This is for the static promo modal, not dynamic spin coupons
         
         // Store location (Lucky Medical Store) coordinates - Dindoli, Surat
         const STORE_LATITUDE = 21.143466; 
@@ -226,7 +264,7 @@
         let trendingInterval;
 
         const searchBar = document.getElementById('search-bar');
-        const medicineSelect = document = document.getElementById('medicine-select');
+        const medicineSelect = document.getElementById('medicine-select');
         const medicineGrid = document.getElementById('medicine-grid');
         const noResultsMsg = document.getElementById('no-results');
         const initialPrompt = document.getElementById('initial-prompt');
@@ -361,7 +399,7 @@
                 document.getElementById('discount-row').classList.remove('hidden');
                 document.getElementById('discount-display').textContent = `- ₹${discountAmount.toFixed(2)} (${discountInfo.percent}%)`;
             } else {
-                 document.getElementById('discount-row').classList.add('hidden');
+                   document.getElementById('discount-row').classList.add('hidden');
             }
             const finalPrice = currentPrice - discountAmount;
 
@@ -467,7 +505,6 @@
             }
 
             if (!isLocationAccepted) {
-                // Modified message to reflect 2km
                 showModal("Location Required", "Please allow and confirm your location to place an order. Service is only available within 2 kilometers of the store.", '<i class="fa-solid fa-map-marker-alt text-red-500 fa-3x"></i>');
                 return;
             }
@@ -497,33 +534,100 @@
             }
         }
         
+        // --- UPDATED SPIN & WIN LOGIC ---
         function handleSpinWin() {
             const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-            if (!loggedInUser) {
+            if (!loggedInUser || !loggedInUser.email) { // Ensure user is logged in and has an email
                 openAuthModal();
                 return;
             }
 
             const spinBtn = document.getElementById('spin-btn');
             const spinResult = document.getElementById('spin-result');
-            
-            const lastSpinTimestamp = localStorage.getItem('lastSpinTimestamp');
-            const oneWeek = 7 * 24 * 60 * 60 * 1000;
-            
-            if (lastSpinTimestamp && (Date.now() - lastSpinTimestamp < oneWeek)) {
-                const remainingTime = oneWeek - (Date.now() - lastSpinTimestamp);
-                const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                spinResult.textContent = `You can spin again in ${days}d ${hours}h.`;
-                spinBtn.disabled = true;
-            } else {
-                spinResult.textContent = 'Good luck!';
-                spinBtn.disabled = false;
+            const spinWheel = document.getElementById('spin-wheel');
+
+            // Initial check: Make an API call to Apps Script to check cooldown
+            spinResult.textContent = 'Checking spin eligibility...';
+            spinBtn.disabled = true; // Disable while checking
+
+            if (APPS_SCRIPT_WEB_APP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+                 spinResult.textContent = 'Error: Apps Script URL not configured.';
+                 return;
             }
-            spinWinModal.classList.remove('hidden');
-            spinWinModal.classList.add('modal-enter-active');
+
+            fetch(APPS_SCRIPT_WEB_APP_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    action: 'spin',
+                    userEmail: loggedInUser.email // Send the user's email
+                })
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    // User is allowed to spin, now show the modal
+                    spinWinModal.classList.remove('hidden');
+                    spinWinModal.classList.add('modal-enter-active');
+                    spinResult.textContent = 'Ready to spin!';
+                    spinBtn.disabled = false; // Enable for the actual spin
+                    
+                    // Set up spin button for actual spin logic (this replaces the previous global listener)
+                    spinBtn.onclick = () => {
+                        spinBtn.disabled = true; // Disable during spin animation
+                        spinResult.textContent = 'Spinning...';
+                        
+                        const segments = [
+                            { text: '5% OFF', code: 'SPIN5', percent: 5 },
+                            { text: 'Try Again', code: 'LOSE' },
+                            { text: '10% OFF', code: 'SPIN10', percent: 10 },
+                            { text: 'Try Again', code: 'LOSE' },
+                            { text: '20% OFF', code: 'SPIN20', percent: 20 },
+                            { text: 'Try Again', code: 'LOSE' }
+                        ];
+
+                        // Find the index of the prize returned by the backend to align animation
+                        let targetSegmentIndex = segments.findIndex(s => s.code === result.prize.code);
+                        if (targetSegmentIndex === -1) targetSegmentIndex = 0; // Fallback in case prize code not found
+
+                        const segmentAngle = 360 / segments.length;
+                        // Calculate rotation to land on the *center* of the target segment
+                        // A full 5-6 spins plus the exact angle to the target segment center
+                        const totalRotation = (5 * 360) + (360 - (targetSegmentIndex * segmentAngle + segmentAngle / 2));
+                        
+                        spinWheel.style.transition = 'transform 5s cubic-bezier(0.25, 1, 0.5, 1)'; // Smooth ease-out transition
+                        spinWheel.style.transform = `rotate(${totalRotation}deg)`;
+
+                        setTimeout(() => {
+                            if (result.prize.code !== 'LOSE') {
+                                spinResult.innerHTML = `🎉 You won! Your coupon is: <strong class="bg-yellow-200 text-yellow-800 px-2 rounded">${result.prize.code}</strong>`;
+                            } else {
+                                spinResult.textContent = 'Better luck next time!';
+                            }
+                            // Reset the rotation for the next spin (optional, for visual consistency)
+                            setTimeout(() => {
+                                spinWheel.style.transition = 'none'; // Remove transition to instantly snap back
+                                spinWheel.style.transform = 'rotate(0deg)'; // Reset for next spin
+                                // spinBtn.disabled = true; // Button disabled permanently until modal re-opened and re-checked
+                            }, 1000); // Small delay after result shown
+                        }, 5000); // This timeout should match the CSS transition duration
+                    };
+
+                } else {
+                    // User is NOT allowed to spin (cooldown active or other error)
+                    spinBtn.disabled = true; // Keep disabled
+                    spinResult.textContent = result.message; // Show cooldown message
+                    spinWinModal.classList.remove('hidden');
+                    spinWinModal.classList.add('modal-enter-active');
+                }
+            })
+            .catch(error => {
+                console.error('Error checking spin eligibility or fetching spin result:', error);
+                spinResult.textContent = 'Error checking spin. Please try again.';
+                spinBtn.disabled = false; // Allow retrying the check if it was a network error
+            });
         }
-        
+
         function createSpinWheel() {
             const wheel = document.getElementById('spin-wheel');
             const segments = [
@@ -549,42 +653,9 @@
             });
         }
         
-        document.getElementById('spin-btn').addEventListener('click', () => {
-             const spinBtn = document.getElementById('spin-btn');
-             const spinResult = document.getElementById('spin-result');
-             const spinWheel = document.getElementById('spin-wheel');
-             const segments = [
-                { text: '5% OFF', code: 'SPIN5', percent: 5 },
-                { text: 'Try Again', code: 'LOSE' },
-                { text: '10% OFF', code: 'SPIN10', percent: 10 },
-                { text: 'Try Again', code: 'LOSE' },
-                { text: '20% OFF', code: 'SPIN20', percent: 20 },
-                { text: 'Try Again', code: 'LOSE' }
-            ];
-            
-            spinBtn.disabled = true;
-            spinResult.textContent = 'Spinning...';
-            localStorage.setItem('lastSpinTimestamp', Date.now());
-            
-            const randomSpins = Math.floor(Math.random() * 4) + 5;
-            const randomStopIndex = Math.floor(Math.random() * segments.length);
-            const segmentAngle = 360 / segments.length;
-            // Corrected angle calculation
-            const stopAngle = -((randomStopIndex * segmentAngle) + (segmentAngle / 2));
-            const totalRotation = (randomSpins * 360) + stopAngle;
-            
-            spinWheel.style.transform = `rotate(${totalRotation}deg)`;
+        // The previous spin-btn event listener is now handled by the `onclick` inside `handleSpinWin`
 
-            setTimeout(() => {
-                const prize = segments[randomStopIndex];
-                if (prize.code !== 'LOSE') {
-                     spinResult.innerHTML = `🎉 You won! Your coupon is: <strong class="bg-yellow-200 text-yellow-800 px-2 rounded">${prize.code}</strong>`;
-                } else {
-                     spinResult.textContent = 'Better luck next time!';
-                }
-            }, 5000);
-        });
-        
+
         function updateAuthUI() {
             const authDesktop = document.getElementById('auth-buttons-desktop');
             const authMobile = document.getElementById('auth-buttons-mobile');
@@ -606,6 +677,7 @@
             authDesktop.innerHTML = desktopHTML;
             authMobile.innerHTML = mobileHTML;
 
+            // Re-attach event listeners as innerHTML overwrites them
             if (loggedInUser) {
                 document.getElementById('logout-btn-desktop').addEventListener('click', handleLogout);
                 document.getElementById('logout-btn-mobile').addEventListener('click', handleLogout);
@@ -618,57 +690,309 @@
         function openAuthModal() {
             authModal.classList.remove('hidden');
             authModal.classList.add('modal-enter-active');
+            // Ensure login form is shown by default when opening modal
+            document.getElementById('login-tab-btn').click();
         }
 
         function handleLogout() {
             localStorage.removeItem('loggedInUser');
             updateAuthUI();
+            showModal("Logged Out", "You have been logged out.", '<i class="fa-solid fa-circle-info text-blue-500 fa-3x"></i>');
         }
 
-        function handleSignUp(e) {
+        async function handleSignUp(e) {
             e.preventDefault();
             const name = document.getElementById('signup-name').value;
             const email = document.getElementById('signup-email').value;
             const password = document.getElementById('signup-password').value;
             const errorEl = document.getElementById('signup-error');
 
+            errorEl.textContent = ''; // Clear previous errors
+
             if (!name || !email || !password) {
                 errorEl.textContent = 'All fields are required.';
                 return;
             }
 
-            let users = JSON.parse(localStorage.getItem('users')) || [];
-            if (users.find(user => user.email === email)) {
-                errorEl.textContent = 'An account with this email already exists.';
-                return;
+            if (APPS_SCRIPT_WEB_APP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+                 errorEl.textContent = 'Please configure your Google Apps Script Web App URL in script.js.';
+                 return;
             }
-            
-            errorEl.textContent = '';
-            const newUser = { name, email, password };
-            users.push(newUser);
-            localStorage.setItem('users', JSON.stringify(users));
-            localStorage.setItem('loggedInUser', JSON.stringify(newUser));
-            
-            authModal.classList.add('hidden');
-            updateAuthUI();
+
+            try {
+                const response = await fetch(APPS_SCRIPT_WEB_APP_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        action: 'signup',
+                        name: name,
+                        email: email,
+                        password: password
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Hide signup form, show OTP verification
+                    document.getElementById('signup-form').classList.add('hidden');
+                    document.getElementById('otp-verification-section').classList.remove('hidden');
+                    document.getElementById('otp-email').value = email; // Pre-fill OTP email
+                    showModal("Registration Successful!", result.message, '<i class="fa-solid fa-check-circle text-green-500 fa-3x"></i>');
+                    errorEl.textContent = ''; // Clear signup error on success
+                } else {
+                    errorEl.textContent = result.message;
+                }
+            } catch (error) {
+                console.error('Signup error:', error);
+                errorEl.textContent = 'Network error or server unavailable. Please try again.';
+            }
         }
 
-        function handleLogin(e) {
+        async function handleLogin(e) {
             e.preventDefault();
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
             const errorEl = document.getElementById('login-error');
 
-            let users = JSON.parse(localStorage.getItem('users')) || [];
-            const user = users.find(u => u.email === email && u.password === password);
+            errorEl.textContent = ''; // Clear previous errors
 
-            if (user) {
-                errorEl.textContent = '';
-                localStorage.setItem('loggedInUser', JSON.stringify(user));
-                authModal.classList.add('hidden');
-                updateAuthUI();
-            } else {
-                errorEl.textContent = 'Invalid email or password.';
+            if (!email || !password) {
+                errorEl.textContent = 'Email and password are required.';
+                return;
+            }
+            if (APPS_SCRIPT_WEB_APP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+                 errorEl.textContent = 'Please configure your Google Apps Script Web App URL in script.js.';
+                 return;
+            }
+
+            try {
+                const response = await fetch(APPS_SCRIPT_WEB_APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        action: 'login',
+                        email: email,
+                        password: password
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    localStorage.setItem('loggedInUser', JSON.stringify({ name: result.name, email: result.email }));
+                    errorEl.textContent = ''; // Clear any error
+                    document.getElementById('auth-modal').classList.add('hidden');
+                    updateAuthUI(); // Update navigation/UI
+                    showModal("Login Successful!", `Welcome back, ${result.name}!`, '<i class="fa-solid fa-circle-check text-green-500 fa-3x"></i>');
+                } else {
+                    errorEl.textContent = result.message;
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                errorEl.textContent = 'Network error or server unavailable. Please try again.';
+            }
+        }
+
+        async function handleVerifyOtp() {
+            const email = document.getElementById('otp-email').value;
+            const otp = document.getElementById('otp-input').value;
+            const errorEl = document.getElementById('otp-error');
+
+            errorEl.textContent = ''; // Clear previous errors
+
+            if (!email || !otp) {
+                errorEl.textContent = 'Email and OTP are required.';
+                return;
+            }
+            if (APPS_SCRIPT_WEB_APP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+                 errorEl.textContent = 'Please configure your Google Apps Script Web App URL in script.js.';
+                 return;
+            }
+
+            try {
+                const response = await fetch(APPS_SCRIPT_WEB_APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        action: 'verifyOtp',
+                        email: email,
+                        otp: otp
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Show the success modal first
+                    showModal("Verification Successful!", result.message + "\nYou can now log in.", '<i class="fa-solid fa-check-circle text-green-500 fa-3x"></i>');
+                    
+                    // Add a short delay (e.g., 2 seconds) before changing the forms and closing the modal
+                    setTimeout(() => {
+                        document.getElementById('otp-verification-section').classList.add('hidden');
+                        document.getElementById('login-form').classList.remove('hidden'); // Show login form
+                        document.getElementById('otp-input').value = ''; // Clear OTP
+                        document.getElementById('otp-email').value = ''; // Clear OTP email
+                        document.getElementById('login-email').value = email; // Pre-fill login email
+                        errorEl.textContent = ''; // Clear OTP error on success
+                        
+                        // Explicitly hide the modal after the delay, so it doesn't linger
+                        document.getElementById('modal').classList.add('hidden'); 
+
+                    }, 2000); // 2000 milliseconds = 2 seconds. Adjust as needed.
+                    
+                } else {
+                    errorEl.textContent = result.message;
+                }
+            } catch (error) {
+                console.error('OTP verification error:', error);
+                errorEl.textContent = 'Network error or server unavailable. Please try again.';
+            }
+        }
+
+        async function handleResendOtp() {
+            const email = document.getElementById('otp-email').value;
+            const errorEl = document.getElementById('otp-error');
+            errorEl.textContent = ''; // Clear any previous error
+
+            if (!email) {
+                errorEl.textContent = 'Email is required to resend OTP.';
+                return;
+            }
+            if (APPS_SCRIPT_WEB_APP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+                 errorEl.textContent = 'Please configure your Google Apps Script Web App URL in script.js.';
+                 return;
+            }
+
+            try {
+                const response = await fetch(APPS_SCRIPT_WEB_APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        action: 'sendOtp',
+                        email: email
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    errorEl.textContent = result.message;
+                    errorEl.style.color = 'green';
+                } else {
+                    errorEl.textContent = result.message;
+                    errorEl.style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Resend OTP error:', error);
+                errorEl.textContent = 'Network error or server unavailable. Please try again.';
+            }
+        }
+
+        async function handleForgotPassword() {
+            const emailInput = prompt("Please enter your registered email address:");
+            if (!emailInput) return; // User cancelled prompt
+
+            if (APPS_SCRIPT_WEB_APP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+                 showModal("Configuration Error", "Please configure your Google Apps Script Web App URL in script.js.", '<i class="fa-solid fa-triangle-exclamation text-yellow-500 fa-3x"></i>');
+                 return;
+            }
+
+            try {
+                const response = await fetch(APPS_SCRIPT_WEB_APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        action: 'forgotPassword',
+                        email: emailInput
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showModal("Password Reset", result.message, '<i class="fa-solid fa-envelope text-blue-500 fa-3x"></i>');
+                    // Important: The Apps Script will send a link.
+                    // Make sure the link's domain matches where you host this HTML file.
+                    // e.g., if this HTML is at "https://yourwebsite.com/index.html"
+                    // then the Apps Script should send a link like "https://yourwebsite.com/index.html?email=...&token=..."
+                } else {
+                    showModal("Error", result.message, '<i class="fa-solid fa-circle-exclamation text-red-500 fa-3x"></i>');
+                }
+            } catch (error) {
+                console.error('Forgot password error:', error);
+                showModal("Network Error", "Could not send reset request. Please check your internet connection.", '<i class="fa-solid fa-wifi text-red-500 fa-3x"></i>');
+            }
+        }
+
+        async function handleResetPasswordSubmit() {
+            const email = document.getElementById('reset-email').value;
+            const token = document.getElementById('reset-token-input').value;
+            const newPassword = document.getElementById('new-password-input').value;
+            const errorEl = document.getElementById('reset-password-error');
+
+            errorEl.textContent = '';
+
+            if (!email || !token || !newPassword) {
+                errorEl.textContent = 'All fields are required.';
+                return;
+            }
+            if (APPS_SCRIPT_WEB_APP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+                 errorEl.textContent = 'Please configure your Google Apps Script Web App URL in script.js.';
+                 return;
+            }
+
+            try {
+                const response = await fetch(APPS_SCRIPT_WEB_APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        action: 'resetPassword',
+                        email: email,
+                        resetToken: token,
+                        newPassword: newPassword
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showModal("Password Reset Successful", result.message + "\nYou can now log in with your new password.", '<i class="fa-solid fa-check-circle text-green-500 fa-3x"></i>');
+                    document.getElementById('reset-password-section').classList.add('hidden');
+                    // After reset, show login form
+                    document.getElementById('auth-modal').classList.remove('hidden');
+                    document.getElementById('login-tab-btn').click(); // Switch to login tab
+                    document.getElementById('login-email').value = email; // Pre-fill login email
+                    errorEl.textContent = ''; // Clear reset error on success
+                } else {
+                    errorEl.textContent = result.message;
+                }
+            } catch (error) {
+                console.error('Password reset error:', error);
+                errorEl.textContent = 'Network error or server unavailable. Please try again.';
+            }
+        }
+
+        // Function to check URL for reset parameters on page load
+        function checkResetPasswordParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const email = urlParams.get('email');
+            const token = urlParams.get('token');
+
+            if (email && token) {
+                // Show the reset password section and pre-fill fields
+                document.getElementById('auth-modal').classList.remove('hidden');
+                document.getElementById('login-form').classList.add('hidden');
+                document.getElementById('signup-form').classList.add('hidden');
+                document.getElementById('otp-verification-section').classList.add('hidden');
+                document.getElementById('reset-password-section').classList.remove('hidden');
+
+                document.getElementById('reset-email').value = email;
+                document.getElementById('reset-token-input').value = token;
+                // Clear the URL parameters after processing to prevent re-triggering on refresh
+                history.replaceState({}, document.title, window.location.pathname);
             }
         }
         
@@ -711,12 +1035,10 @@
                     const distance = haversineDistance(STORE_LATITUDE, STORE_LONGITUDE, userLatitude, userLongitude);
                     
                     if (distance <= SERVICE_RADIUS_METERS) {
-                        // MODIFIED: Simplified success message
                         locationStatus.innerHTML = `<i class="fa-solid fa-check-circle text-green-600"></i> Location confirmed!`;
                         locationStatus.className = "text-sm text-center mt-2 text-green-600 font-semibold";
                         isLocationAccepted = true;
                     } else {
-                        // Existing modified message for out-of-range
                         locationStatus.innerHTML = `
                             <div class="text-xl font-bold text-red-600 mb-1">
                                 <i class="fa-solid fa-circle-xmark mr-2"></i> We're sorry!
@@ -779,25 +1101,44 @@
         document.getElementById('booking-form').addEventListener('submit', handleBookingSubmit);
         document.getElementById('modal-close').addEventListener('click', () => document.getElementById('modal').classList.add('hidden'));
         document.getElementById('promo-close-btn').addEventListener('click', () => promoModal.classList.add('hidden'));
+        
+        // Spin & Win button listeners (now call handleSpinWin)
         document.getElementById('spin-win-nav-btn').addEventListener('click', handleSpinWin);
         document.getElementById('spin-win-mobile-btn').addEventListener('click', handleSpinWin);
         document.getElementById('spin-win-close-btn').addEventListener('click', () => spinWinModal.classList.add('hidden'));
         
         document.getElementById('auth-close-btn').addEventListener('click', () => authModal.classList.add('hidden'));
+        
+        // --- Authentication Tabs Management ---
         document.getElementById('login-tab-btn').addEventListener('click', () => {
             document.getElementById('login-tab-btn').classList.add('text-teal-600', 'border-teal-600');
             document.getElementById('signup-tab-btn').classList.remove('text-teal-600', 'border-teal-600');
             document.getElementById('login-form').classList.remove('hidden');
             document.getElementById('signup-form').classList.add('hidden');
+            document.getElementById('otp-verification-section').classList.add('hidden'); // Hide OTP section
+            document.getElementById('reset-password-section').classList.add('hidden'); // Hide Reset section
+            document.getElementById('login-error').textContent = ''; // Clear errors
         });
         document.getElementById('signup-tab-btn').addEventListener('click', () => {
             document.getElementById('signup-tab-btn').classList.add('text-teal-600', 'border-teal-600');
             document.getElementById('login-tab-btn').classList.remove('text-teal-600', 'border-teal-600');
             document.getElementById('signup-form').classList.remove('hidden');
             document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('otp-verification-section').classList.add('hidden'); // Hide OTP section
+            document.getElementById('reset-password-section').classList.add('hidden'); // Hide Reset section
+            document.getElementById('signup-error').textContent = ''; // Clear errors
         });
+
+        // --- Auth Form Submissions ---
         document.getElementById('login-form').addEventListener('submit', handleLogin);
         document.getElementById('signup-form').addEventListener('submit', handleSignUp);
+        
+        // --- OTP and Forgot Password Listeners ---
+        document.getElementById('verify-otp-btn').addEventListener('click', handleVerifyOtp);
+        document.getElementById('resend-otp-btn').addEventListener('click', handleResendOtp);
+        document.getElementById('forgot-password-link').addEventListener('click', handleForgotPassword);
+        document.getElementById('submit-reset-password-btn').addEventListener('click', handleResetPasswordSubmit); // For the reset password form
+
         document.getElementById('hero-order-now-btn').addEventListener('click', () => {
              if (localStorage.getItem('loggedInUser')) {
                  document.getElementById('booking-section').scrollIntoView();
@@ -807,18 +1148,20 @@
         });
         
         document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // --- Initial Page Load Functions ---
         createShimmerCards();
         loadMedicinesFromSheet();
         populateScrollingBanners();
         createSpinWheel();
-        updateAuthUI();
-
-        // Initial check for place order button status
-        updatePlaceOrderButtonStatus();
-
+        updateAuthUI(); // Sets up login/logout buttons
+        updatePlaceOrderButtonStatus(); // Initial check for place order button status
+        
         // Trigger location request on page load or after a short delay
-        // This makes it compulsory as soon as the user visits
         setTimeout(handleGetLocation, 1000); 
+
+        // Check for password reset parameters on page load
+        checkResetPasswordParams();
     });
     </script>
 </body>
