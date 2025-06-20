@@ -682,6 +682,7 @@
             localStorage.removeItem('loggedInUser');
             updateAuthUI();
             showModal("Logged Out", "You have been logged out.", '<i class="fa-solid fa-circle-info text-blue-500 fa-3x"></i>');
+            stopOrderPolling(); // Stop polling when user logs out
         }
 
         async function handleSignUp(e) {
@@ -1211,7 +1212,6 @@
         // Location & Order related
         getLocationBtn.addEventListener('click', handleGetLocation); 
         // IMPORTANT: Removed old booking form submit listener and added new one below
-        // This ensures the custom logic is always used.
         document.getElementById('booking-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             console.log("Booking form submission triggered.");
@@ -1235,6 +1235,14 @@
             const form = e.target;
             const formDataFormspree = new FormData(form); // For Formspree submission
             
+            // Add Google Maps Link to Formspree data
+            let mapsLink = "Location Not Provided";
+            if (userLatitude && userLongitude) {
+                mapsLink = `https://www.google.com/maps/search/?api=1&query=${userLatitude},${userLongitude}`;
+            }
+            formDataFormspree.append('Location_Map_Link', mapsLink); // Add to Formspree data
+
+
             const dataAppsScript = new URLSearchParams(); // For Apps Script submission
             dataAppsScript.append('action', 'placeOrder');
             dataAppsScript.append('userEmail', loggedInUser.email);
@@ -1247,7 +1255,6 @@
             dataAppsScript.append('Discount Applied', document.getElementById('hidden-discount-applied').value);
             dataAppsScript.append('Final Price', document.getElementById('hidden-final-price').value);
             dataAppsScript.append('Payment Method', 'Cash on Delivery'); // Send explicitly
-
 
             let formspreeSuccess = false;
             let appsScriptSuccess = false;
@@ -1268,8 +1275,13 @@
                     formspreeSuccess = true;
                     formspreeMessage = "Order sent to Formspree successfully.";
                 } else {
-                    const errorData = await formspreeResponse.json();
-                    formspreeMessage = `Formspree error: ${errorData.errors ? errorData.errors.map(err => err.message).join(', ') : 'Unknown'}`;
+                    // Try to parse error if response is not ok
+                    try {
+                        const errorData = await formspreeResponse.json();
+                        formspreeMessage = `Formspree error: ${errorData.errors ? errorData.errors.map(err => err.message).join(', ') : JSON.stringify(errorData)}`;
+                    } catch (jsonError) {
+                        formspreeMessage = `Formspree error: ${formspreeResponse.status} ${formspreeResponse.statusText}`;
+                    }
                 }
                 console.log("Formspree submission result:", formspreeMessage);
 
