@@ -272,6 +272,7 @@
     const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-MH4nLsEaIH3oXpTKKI1LEYsOpzP2MXMgtKkdfnKPM8OBuEZEExSwpJGQc9BAM5Xl3w6uDTjWh-oU/pub?gid=0&single=true&output=csv';
     // PASTE YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL HERE
     const APPS_SCRIPT_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwW2eu4JecuFBmVOI5K_ukRPGGLMy3e8OpPrr3IkW1Sey0smfaZhH_jCru2gsep_kCzlg/exec'; 
+    const FORMSPREE_URL = 'https://formspree.io/f/mjkrrbnb'; // Your original Formspree URL
     const COUPON_CODE = 'LUCKY15'; 
     
     // Store location (Lucky Medical Store) coordinates - Dindoli, Surat
@@ -302,7 +303,7 @@
         submitForgotEmailBtn, forgotEmailError,
         myOrdersSection, ordersList, noOrdersMessage, ordersLoadingMessage, 
         ordersErrorMessage, refreshOrdersBtn, myOrdersNavBtn, myOrdersMobileBtn,
-        codConfirmRadio; // ADDED NEW VARIABLE HERE
+        codConfirmRadio;
 
 
     // --- Helper functions (defined outside DOMContentLoaded so they can be called by it) ---
@@ -522,44 +523,6 @@
         modalIcon.innerHTML = iconHTML;
         modal.classList.remove('hidden');
         requestAnimationFrame(() => { modal.classList.add('modal-enter-active'); });
-    }
-    
-    async function handleBookingSubmit(e) {
-        e.preventDefault();
-        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-        if (!loggedInUser) {
-            showModal("Login Required", "Please log in or create an account to place an order.", '<i class="fa-solid fa-user-lock text-yellow-500 fa-3x"></i>');
-            openAuthModal();
-            return;
-        }
-
-        if (!isLocationAccepted) {
-            showModal("Location Required", "Please allow and confirm your location to place an order. Service is only available within 2 kilometers of the store.", '<i class="fa-solid fa-map-marker-alt text-red-500 fa-3x"></i>');
-            return;
-        }
-
-        const form = e.target;
-        const data = new FormData(form);
-        if (!data.get('Medicine') || !data.get('Customer Name') || !data.get('Delivery Address') || !data.get('WhatsApp Number')) {
-            showModal("Missing Information", "Please fill out all required fields, including your WhatsApp number.", '<i class="fa-solid fa-circle-exclamation text-yellow-500 fa-3x"></i>'); return;
-        }
-        try {
-            const response = await fetch(form.action, { method: form.method, body: data, headers: { 'Accept': 'application/json' }});
-            if (response.ok) {
-                showModal("Order Placed Successfully!", "Thank you for your order. We have received it and will contact you on WhatsApp shortly.", '<i class="fa-solid fa-circle-check text-green-500 fa-3x"></i>');
-                form.reset();
-                document.getElementById('location-coords').value = "";
-                locationStatus.textContent = "Location must be provided to place an order.";
-                locationStatus.className = "text-sm text-center mt-2 text-gray-500";
-                isLocationAccepted = false;
-                updatePlaceOrderButtonStatus();
-                updateAuthUI();
-            } else {
-                showModal("Submission Error", "Could not send order. Please try again later.", '<i class="fa-solid fa-circle-exclamation text-red-500 fa-3x"></i>');
-            }
-        } catch (error) {
-            showModal("Network Error", "Could not send order. Please check your internet connection.", '<i class="fa-solid fa-wifi text-red-500 fa-3x"></i>');
-        }
     }
     
     // --- UPDATED SPIN & WIN LOGIC ---
@@ -1079,15 +1042,14 @@
 
     function updatePlaceOrderButtonStatus() {
         const isMedicineSelected = medicineSelect.value !== "";
-        const isCodConfirmed = codConfirmRadio.checked; // NEW: Check if COD radio is checked
-        // Button is enabled only if location is accepted, medicine is selected, AND COD is confirmed
+        const isCodConfirmed = codConfirmRadio.checked; 
         placeOrderBtn.disabled = !(isLocationAccepted && isMedicineSelected && isCodConfirmed); 
 
         if (!isLocationAccepted) {
             placeOrderBtn.textContent = 'Please Get Your Location to Order';
         } else if (!isMedicineSelected) {
             placeOrderBtn.textContent = 'Select a Medicine to Order';
-        } else if (!isCodConfirmed) { // NEW: Message for COD not confirmed
+        } else if (!isCodConfirmed) { 
             placeOrderBtn.textContent = 'Confirm Cash on Delivery to Order';
         }else {
             placeOrderBtn.innerHTML = '<i class="fa-regular fa-paper-plane"></i> Confirm & Place Order';
@@ -1095,6 +1057,8 @@
     }
 
     // --- My Orders Section Logic ---
+    let orderRefreshInterval; // Global variable to hold the interval ID
+
     async function loadUserOrders() {
         console.log("loadUserOrders called.");
         const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -1135,15 +1099,15 @@
                 result.orders.forEach(order => {
                     const orderCard = document.createElement('div');
                     orderCard.className = 'bg-white p-6 rounded-lg shadow-md border border-gray-200';
-                    const formattedTimestamp = typeof order.Timestamp === 'number' ? new Date(order.Timestamp).toLocaleString() : order.Timestamp;
+                    // Format timestamp if it's a number (from getTime()) or a Date object from GSheets
+                    const formattedTimestamp = (typeof order.Timestamp === 'number' || order.Timestamp instanceof Date) ? new Date(order.Timestamp).toLocaleString() : order.Timestamp;
                     orderCard.innerHTML = `
                         <div class="flex justify-between items-center mb-3">
                             <h4 class="font-bold text-lg text-teal-700">${order.Medicine}</h4>
                             <span class="text-sm text-gray-500">${formattedTimestamp}</span>
                         </div>
                         <p class="text-gray-700">Price: <span class="font-semibold">${order.FinalPrice}</span> (Original: ${order.OriginalPrice}, Discount: ${order.DiscountApplied})</p>
-                        <p class="text-gray-700">Status: <span class="font-semibold text-blue-600">${order.OrderStatus}</span></p>
-                        <p class="text-gray-600 text-sm mt-2">Delivery to: ${order.DeliveryAddress}</p>
+                        <p class="text-gray-700">Status: <span class="font-semibold ${order.OrderStatus === 'Confirmed' || order.OrderStatus === 'Delivered' ? 'text-green-600' : 'text-blue-600'}">${order.OrderStatus}</span></p> <p class="text-gray-600 text-sm mt-2">Delivery to: ${order.DeliveryAddress}</p>
                         <p class="text-gray-600 text-sm">Payment: ${order.PaymentMethod}</p>
                     `;
                     ordersList.appendChild(orderCard);
@@ -1159,6 +1123,22 @@
             ordersLoadingMessage.classList.add('hidden');
             ordersErrorMessage.textContent = 'Network error loading orders. Please try again.';
             ordersErrorMessage.classList.remove('hidden');
+        }
+    }
+
+    // Function to start polling
+    function startOrderPolling() {
+        if (orderRefreshInterval) clearInterval(orderRefreshInterval); // Clear existing interval
+        console.log("Started polling for orders every 10 seconds.");
+        orderRefreshInterval = setInterval(loadUserOrders, 10000); // Poll every 10 seconds (10000 ms)
+    }
+
+    // Function to stop polling
+    function stopOrderPolling() {
+        if (orderRefreshInterval) {
+            clearInterval(orderRefreshInterval);
+            orderRefreshInterval = null;
+            console.log("Stopped polling for orders.");
         }
     }
 
@@ -1192,7 +1172,7 @@
         refreshOrdersBtn = document.getElementById('refresh-orders-btn');
         myOrdersNavBtn = document.getElementById('my-orders-nav-btn');
         myOrdersMobileBtn = document.getElementById('my-orders-mobile-btn');
-        codConfirmRadio = document.getElementById('cod-confirm'); // GET REFERENCE TO NEW RADIO BUTTON
+        codConfirmRadio = document.getElementById('cod-confirm');
 
 
         // --- Event Listeners ---
@@ -1208,8 +1188,16 @@
         document.getElementById('modal-close').addEventListener('click', () => document.getElementById('modal').classList.add('hidden'));
         document.getElementById('promo-close-btn').addEventListener('click', () => promoModal.classList.add('hidden'));
         document.getElementById('spin-win-close-btn').addEventListener('click', () => spinWinModal.classList.add('hidden'));
-        document.getElementById('auth-close-btn').addEventListener('click', () => authModal.classList.add('hidden'));
-        document.getElementById('forgot-password-close-btn').addEventListener('click', () => forgotPasswordModal.classList.add('hidden'));
+        // Adjusted close behavior for authModal and forgotPasswordModal to also stop polling if open
+        document.getElementById('auth-close-btn').addEventListener('click', () => {
+            authModal.classList.add('hidden');
+            stopOrderPolling(); // Stop polling if auth modal closes
+        });
+        document.getElementById('forgot-password-close-btn').addEventListener('click', () => {
+            forgotPasswordModal.classList.add('hidden');
+            stopOrderPolling(); // Stop polling if forgot password modal closes
+        });
+
 
         // Search & Product related
         searchBar.addEventListener('input', filterAndRender);
@@ -1226,7 +1214,7 @@
         // This ensures the custom logic is always used.
         document.getElementById('booking-form').addEventListener('submit', async function(e) {
             e.preventDefault();
-            console.log("Booking form submission to Apps Script triggered.");
+            console.log("Booking form submission triggered.");
 
             const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
             if (!loggedInUser || !loggedInUser.email) {
@@ -1243,48 +1231,87 @@
                 return;
             }
             
+            // Collect form data for both Formspree and Apps Script
             const form = e.target;
-            const data = new URLSearchParams(); // Use URLSearchParams for x-www-form-urlencoded
-            data.append('action', 'placeOrder');
-            data.append('userEmail', loggedInUser.email); // Associate order with user
-            data.append('Medicine', medicineSelect.value);
-            data.append('Customer Name', document.getElementById('name').value);
-            data.append('WhatsApp Number', document.getElementById('whatsapp').value);
-            data.append('Delivery Address', document.getElementById('address').value);
-            data.append('GPS Location', document.getElementById('location-coords').value);
-            data.append('Original Price', document.getElementById('hidden-original-price').value);
-            data.append('Discount Applied', document.getElementById('hidden-discount-applied').value);
-            data.append('Final Price', document.getElementById('hidden-final-price').value);
+            const formDataFormspree = new FormData(form); // For Formspree submission
+            
+            const dataAppsScript = new URLSearchParams(); // For Apps Script submission
+            dataAppsScript.append('action', 'placeOrder');
+            dataAppsScript.append('userEmail', loggedInUser.email);
+            dataAppsScript.append('Medicine', medicineSelect.value);
+            dataAppsScript.append('Customer Name', document.getElementById('name').value);
+            dataAppsScript.append('WhatsApp Number', document.getElementById('whatsapp').value);
+            dataAppsScript.append('Delivery Address', document.getElementById('address').value);
+            dataAppsScript.append('GPS Location', document.getElementById('location-coords').value);
+            dataAppsScript.append('Original Price', document.getElementById('hidden-original-price').value);
+            dataAppsScript.append('Discount Applied', document.getElementById('hidden-discount-applied').value);
+            dataAppsScript.append('Final Price', document.getElementById('hidden-final-price').value);
+            dataAppsScript.append('Payment Method', 'Cash on Delivery'); // Send explicitly
 
-            // Payment method is fixed to Cash on Delivery
-            data.append('Payment Method', 'Cash on Delivery'); // Send explicitly
+
+            let formspreeSuccess = false;
+            let appsScriptSuccess = false;
+            let formspreeMessage = "Formspree submission failed.";
+            let appsScriptMessage = "Order saving to sheet failed.";
+
+            // Show a loading modal
+            showModal("Processing Order", "Please wait while your order is being processed...", '<i class="fa-solid fa-spinner fa-spin text-blue-500 fa-3x"></i>');
 
             try {
-                const response = await fetch(APPS_SCRIPT_WEB_APP_URL, {
+                // --- Submit to Formspree ---
+                const formspreeResponse = await fetch(FORMSPREE_URL, {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json' },
+                    body: formDataFormspree // FormData for Formspree
+                });
+                if (formspreeResponse.ok) {
+                    formspreeSuccess = true;
+                    formspreeMessage = "Order sent to Formspree successfully.";
+                } else {
+                    const errorData = await formspreeResponse.json();
+                    formspreeMessage = `Formspree error: ${errorData.errors ? errorData.errors.map(err => err.message).join(', ') : 'Unknown'}`;
+                }
+                console.log("Formspree submission result:", formspreeMessage);
+
+
+                // --- Submit to Apps Script ---
+                const appsScriptResponse = await fetch(APPS_SCRIPT_WEB_APP_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: data
+                    body: dataAppsScript // URLSearchParams for Apps Script
                 });
-                const result = await response.json();
-                console.log("Place Order API response:", result);
+                const appsScriptResult = await appsScriptResponse.json();
+                console.log("Apps Script order saving result:", appsScriptResult);
 
-                if (result.success) {
-                    showModal("Order Placed Successfully!", result.message, '<i class="fa-solid fa-circle-check text-green-500 fa-3x"></i>');
+                if (appsScriptResult.success) {
+                    appsScriptSuccess = true;
+                    appsScriptMessage = "Order saved to sheet successfully.";
+                } else {
+                    appsScriptMessage = `Apps Script error: ${appsScriptResult.message || 'Unknown'}`;
+                }
+
+                // --- Consolidate Results ---
+                if (formspreeSuccess && appsScriptSuccess) {
+                    showModal("Order Placed Successfully!", "Your order has been placed successfully and recorded. We'll contact you via WhatsApp shortly.", '<i class="fa-solid fa-circle-check text-green-500 fa-3x"></i>');
                     form.reset();
-                    // Clear calculated prices and location status
                     document.getElementById('price-section').classList.add('hidden');
                     document.getElementById('location-coords').value = "";
                     locationStatus.textContent = "Location must be provided to place an order.";
                     locationStatus.className = "text-sm text-center mt-2 text-gray-500";
                     isLocationAccepted = false;
+                    codConfirmRadio.checked = false;
                     updatePlaceOrderButtonStatus();
                     loadUserOrders(); // Reload orders to show the new one
                 } else {
-                    showModal("Order Error", result.message, '<i class="fa-solid fa-circle-exclamation text-red-500 fa-3x"></i>');
+                    // Show detailed error if one or both failed
+                    showModal("Order Submission Issues", 
+                              `There were issues with your order submission:\n\nFormspree: ${formspreeMessage}\nSheet Saving: ${appsScriptMessage}\n\nPlease try again or contact support.`, 
+                              '<i class="fa-solid fa-triangle-exclamation text-red-500 fa-3x"></i>');
                 }
+
             } catch (error) {
-                console.error('Error placing order:', error);
-                showModal("Network Error", "Could not place order. Please check your internet connection.", '<i class="fa-solid fa-wifi text-red-500 fa-3x"></i>');
+                console.error('Network error during order placement:', error);
+                showModal("Network Error", "Could not complete order. Please check your internet connection and try again.", '<i class="fa-solid fa-wifi text-red-500 fa-3x"></i>');
             }
         });
 
@@ -1293,12 +1320,13 @@
         document.getElementById('spin-win-nav-btn').addEventListener('click', handleSpinWin);
         document.getElementById('spin-win-mobile-btn').addEventListener('click', handleSpinWin);
         
-        // My Orders button listeners
+        // My Orders button listeners (start polling when section is shown, stop when logged out or auth modal opens)
         myOrdersNavBtn.addEventListener('click', () => {
             if (JSON.parse(localStorage.getItem('loggedInUser'))) {
                 myOrdersSection.classList.remove('hidden');
                 myOrdersSection.scrollIntoView({ behavior: 'smooth' });
                 loadUserOrders();
+                startOrderPolling(); // Start polling when My Orders section is accessed
             } else {
                 showModal("Login Required", "Please log in to view your orders.", '<i class="fa-solid fa-user-lock text-yellow-500 fa-3x"></i>');
                 openAuthModal();
@@ -1310,6 +1338,7 @@
                 myOrdersSection.classList.remove('hidden');
                 myOrdersSection.scrollIntoView({ behavior: 'smooth' });
                 loadUserOrders();
+                startOrderPolling(); // Start polling when My Orders section is accessed
             } else {
                 showModal("Login Required", "Please log in to view your orders.", '<i class="fa-solid fa-user-lock text-yellow-500 fa-3x"></i>');
                 openAuthModal();
