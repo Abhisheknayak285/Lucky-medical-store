@@ -232,6 +232,22 @@
         </div>
     </div>
 
+    <div id="forgot-password-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden modal-enter z-50">
+        <div class="bg-white p-8 rounded-lg shadow-xl max-w-sm w-full relative">
+            <button id="forgot-password-close-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition"><i class="fa-solid fa-times fa-lg"></i></button>
+            <h3 class="text-xl font-bold mb-4 text-center">Forgot Your Password?</h3>
+            <p class="text-gray-600 text-center mb-4">Enter your registered email below to receive a password reset link.</p>
+            <div class="space-y-4">
+                <div>
+                    <label for="forgot-email-input" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="forgot-email-input" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg">
+                </div>
+                <p id="forgot-email-error" class="text-red-500 text-sm h-4"></p>
+                <button type="button" id="submit-forgot-email-btn" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg btn-glow">Send Reset Link</button>
+            </div>
+        </div>
+    </div>
+
 
     <script>
     // This script content runs immediately when the <script> tag is encountered.
@@ -267,7 +283,7 @@
     // These variables will be assigned DOM elements inside DOMContentLoaded
     let searchBar, medicineSelect, medicineGrid, noResultsMsg, initialPrompt,
         shimmerContainer, promoModal, spinWinModal, authModal, getLocationBtn,
-        locationStatus, placeOrderBtn;
+        locationStatus, placeOrderBtn, forgotPasswordModal, forgotEmailInput, submitForgotEmailBtn, forgotEmailError;
 
 
     // --- Helper functions (defined outside DOMContentLoaded so they can be called by it) ---
@@ -788,12 +804,15 @@
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: new URLSearchParams({ action: 'verifyOtp', email: email, otp: otp })
                 });
+
                 const result = await response.json();
                 console.log("Verify OTP API response:", result);
 
                 if (result.success) {
+                    // Show the success modal first
                     showModal("Verification Successful!", result.message + "\nYou can now log in.", '<i class="fa-solid fa-check-circle text-green-500 fa-3x"></i>');
                     
+                    // Add a short delay (e.g., 2 seconds) before changing the forms and closing the modal
                     setTimeout(() => {
                         document.getElementById('otp-verification-section').classList.add('hidden');
                         document.getElementById('login-form').classList.remove('hidden');
@@ -801,8 +820,12 @@
                         document.getElementById('otp-email').value = '';
                         document.getElementById('login-email').value = email;
                         errorEl.textContent = '';
-                        document.getElementById('modal').classList.add('hidden'); 
-                    }, 2000);
+                        document.getElementById('modal').classList.add('hidden'); // Hide general modal after delay
+                        
+                        // Close the auth modal as well if it's open
+                        document.getElementById('auth-modal').classList.add('hidden'); 
+
+                    }, 2000); // 2000 milliseconds = 2 seconds. Adjust as needed.
                     
                 } else {
                     errorEl.textContent = result.message;
@@ -851,13 +874,29 @@
             }
         }
 
-        async function handleForgotPassword() {
-            console.log("handleForgotPassword called.");
-            const emailInput = prompt("Please enter your registered email address:");
-            if (!emailInput) return;
+        // --- CUSTOM FORGOT PASSWORD MODAL LOGIC (UPDATED) ---
+        async function openForgotPasswordModal() {
+            console.log("openForgotPasswordModal called.");
+            // Hide the main auth modal first if it's open, or just ensure it's not shown.
+            authModal.classList.add('hidden'); 
+            forgotPasswordModal.classList.remove('hidden');
+            forgotPasswordModal.classList.add('modal-enter-active');
+            forgotEmailInput.value = ''; // Clear previous email
+            forgotEmailError.textContent = ''; // Clear previous errors
+        }
+
+        async function handleSubmitForgotEmail() {
+            console.log("handleSubmitForgotEmail called.");
+            const emailInput = forgotEmailInput.value;
+            forgotEmailError.textContent = '';
+
+            if (!emailInput) {
+                forgotEmailError.textContent = 'Please enter your email.';
+                return;
+            }
 
             if (APPS_SCRIPT_WEB_APP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
-                 showModal("Configuration Error", "Please configure your Google Apps Script Web App URL.", '<i class="fa-solid fa-triangle-exclamation text-yellow-500 fa-3x"></i>');
+                 forgotEmailError.textContent = 'Error: Apps Script URL not configured.';
                  return;
             }
 
@@ -872,13 +911,14 @@
                 console.log("Forgot Password API response:", result);
 
                 if (result.success) {
+                    forgotPasswordModal.classList.add('hidden'); // Close forgot password modal
                     showModal("Password Reset", result.message, '<i class="fa-solid fa-envelope text-blue-500 fa-3x"></i>');
                 } else {
-                    showModal("Error", result.message, '<i class="fa-solid fa-circle-exclamation text-red-500 fa-3x"></i>');
+                    forgotEmailError.textContent = result.message; // Display error in forgot password modal
                 }
             } catch (error) {
-                console.error('Forgot password error:', error);
-                showModal("Network Error", "Could not send reset request. Please check your internet connection.", '<i class="fa-solid fa-wifi text-red-500 fa-3x"></i>');
+                console.error('Forgot password submission error:', error);
+                forgotEmailError.textContent = 'Network error. Please try again.';
             }
         }
 
@@ -913,7 +953,8 @@
                 if (result.success) {
                     showModal("Password Reset Successful", result.message + "\nYou can now log in with your new password.", '<i class="fa-solid fa-check-circle text-green-500 fa-3x"></i>');
                     document.getElementById('reset-password-section').classList.add('hidden');
-                    document.getElementById('auth-modal').classList.remove('hidden');
+                    // After reset, show main auth modal and switch to login tab
+                    authModal.classList.remove('hidden');
                     document.getElementById('login-tab-btn').click();
                     document.getElementById('login-email').value = email;
                     errorEl.textContent = '';
@@ -1008,12 +1049,10 @@
 
 
     // --- Main Initialization Logic on DOMContentLoaded ---
-    // This is the core block that ensures all elements are available before script runs.
-    // It's crucial to assign element references here, AFTER the DOM is ready.
     document.addEventListener('DOMContentLoaded', async function() {
         console.log("DOMContentLoaded event listener activated.");
 
-        // Assign DOM elements to variables here
+        // Assign DOM elements to variables here (must be inside DOMContentLoaded)
         searchBar = document.getElementById('search-bar');
         medicineSelect = document.getElementById('medicine-select');
         medicineGrid = document.getElementById('medicine-grid');
@@ -1026,6 +1065,10 @@
         getLocationBtn = document.getElementById('get-location-btn');
         locationStatus = document.getElementById('location-status');
         placeOrderBtn = document.getElementById('place-order-btn');
+        forgotPasswordModal = document.getElementById('forgot-password-modal'); // NEW element
+        forgotEmailInput = document.getElementById('forgot-email-input'); // NEW element
+        submitForgotEmailBtn = document.getElementById('submit-forgot-email-btn'); // NEW element
+        forgotEmailError = document.getElementById('forgot-email-error'); // NEW element
 
 
         // --- Event Listeners ---
@@ -1038,6 +1081,14 @@
             });
         });
         
+        document.getElementById('modal-close').addEventListener('click', () => document.getElementById('modal').classList.add('hidden'));
+        document.getElementById('promo-close-btn').addEventListener('click', () => promoModal.classList.add('hidden'));
+        document.getElementById('spin-win-close-btn').addEventListener('click', () => spinWinModal.classList.add('hidden'));
+        document.getElementById('auth-close-btn').addEventListener('click', () => authModal.classList.add('hidden'));
+        document.getElementById('forgot-password-close-btn').addEventListener('click', () => forgotPasswordModal.classList.add('hidden')); // NEW close listener
+
+
+        // Search & Product related
         searchBar.addEventListener('input', filterAndRender);
         medicineSelect.addEventListener('change', updatePriceDetails);
         document.getElementById('show-coupon-btn').addEventListener('click', (e) => {
@@ -1046,17 +1097,13 @@
         });
         document.getElementById('apply-coupon-btn').addEventListener('click', applyCoupon);
         
+        // Location & Order related
         getLocationBtn.addEventListener('click', handleGetLocation); 
-        
         document.getElementById('booking-form').addEventListener('submit', handleBookingSubmit);
-        document.getElementById('modal-close').addEventListener('click', () => document.getElementById('modal').classList.add('hidden'));
-        document.getElementById('promo-close-btn').addEventListener('click', () => promoModal.classList.add('hidden'));
         
+        // Spin & Win button listeners
         document.getElementById('spin-win-nav-btn').addEventListener('click', handleSpinWin);
         document.getElementById('spin-win-mobile-btn').addEventListener('click', handleSpinWin);
-        document.getElementById('spin-win-close-btn').addEventListener('click', () => spinWinModal.classList.add('hidden'));
-        
-        document.getElementById('auth-close-btn').addEventListener('click', () => authModal.classList.add('hidden'));
         
         // --- Authentication Tabs Management ---
         document.getElementById('login-tab-btn').addEventListener('click', () => {
@@ -1087,7 +1134,8 @@
         // --- OTP and Forgot Password Listeners ---
         document.getElementById('verify-otp-btn').addEventListener('click', handleVerifyOtp);
         document.getElementById('resend-otp-btn').addEventListener('click', handleResendOtp);
-        document.getElementById('forgot-password-link').addEventListener('click', handleForgotPassword);
+        document.getElementById('forgot-password-link').addEventListener('click', openForgotPasswordModal); // Changed to open custom modal
+        submitForgotEmailBtn.addEventListener('click', handleSubmitForgotEmail); // New listener for submit button in forgot modal
         document.getElementById('submit-reset-password-btn').addEventListener('click', handleResetPasswordSubmit);
 
         document.getElementById('hero-order-now-btn').addEventListener('click', () => {
@@ -1113,7 +1161,7 @@
         const emailFromUrl = urlParams.get('email');
         const tokenFromUrl = urlParams.get('token');
 
-        console.log("Checking URL for reset parameters (after all setup).");
+        console.log("Checking URL for reset parameters.");
         console.log("Email from URL:", emailFromUrl);
         console.log("Token from URL:", tokenFromUrl);
 
